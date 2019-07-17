@@ -194,10 +194,13 @@ def convert_python_source(source: str, rex: Pattern = re.compile(r"[uU]('.*?')")
 class QuickstartRenderer(SphinxRenderer):
     def __init__(self, templatedir: str) -> None:
         self.templatedir = templatedir or ''
+        print(self.templatedir, "templatedir")
         super().__init__()
 
     def render(self, template_name: str, context: Dict) -> str:
         user_template = path.join(self.templatedir, path.basename(template_name))
+        print(user_template, " user template kya h bhai --- ")
+        print(context, "context kya h bhai --- ")
         if self.templatedir and path.exists(user_template):
             return self.render_from_file(user_template, context)
         else:
@@ -237,8 +240,7 @@ def ask_user(d: Dict) -> None:
         print(__('Enter the root path for documentation.'))
         d['path'] = do_prompt(__('Root path for the documentation'), '.', is_path)
 
-    while path.isfile(path.join(d['path'], 'conf.py')) or \
-            path.isfile(path.join(d['path'], 'source', 'conf.py')):
+    while path.isfile(path.join(d['path'], 'conf.py')):
         print()
         print(bold(__('Error: an existing conf.py has been found in the '
                       'selected root path.')))
@@ -249,19 +251,19 @@ def ask_user(d: Dict) -> None:
         if not d['path']:
             sys.exit(1)
 
-    if 'sep' not in d:
-        print()
-        print(__('You have two options for placing the build directory for Sphinx output.\n'
-                 'Either, you use a directory "_build" within the root path, or you separate\n'
-                 '"source" and "build" directories within the root path.'))
-        d['sep'] = do_prompt(__('Separate source and build directories (y/n)'), 'n', boolean)
+    # if 'sep' not in d:
+    #     print()
+    #     print(__('You have two options for placing the build directory for Sphinx output.\n'
+    #              'Either, you use a directory "_build" within the root path, or you separate\n'
+    #              '"source" and "build" directories within the root path.'))
+    #     d['sep'] = do_prompt(__('Separate source and build directories (y/n)'), 'n', boolean)
 
-    if 'dot' not in d:
-        print()
-        print(__('Inside the root directory, two more directories will be created; "_templates"\n'      # NOQA
-                 'for custom HTML templates and "_static" for custom stylesheets and other static\n'    # NOQA
-                 'files. You can enter another prefix (such as ".") to replace the underscore.'))       # NOQA
-        d['dot'] = do_prompt(__('Name prefix for templates and static dir'), '_', ok)
+    # if 'dot' not in d:
+    #     print()
+    #     print(__('Inside the root directory, two more directories will be created; "_templates"\n'      # NOQA
+    #              'for custom HTML templates and "_static" for custom stylesheets and other static\n'    # NOQA
+    #              'files. You can enter another prefix (such as ".") to replace the underscore.'))       # NOQA
+    #     d['dot'] = do_prompt(__('Name prefix for templates and static dir'), '_', ok)
 
     if 'project' not in d:
         print()
@@ -359,22 +361,27 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False, templatedir:
 
     ensuredir(d['path'])
 
-    srcdir = d['sep'] and path.join(d['path'], 'source') or d['path']
+    basepath = d['path']
+
+    srcdir = path.join(d['path'], 'source')
 
     ensuredir(srcdir)
-    if d['sep']:
-        builddir = path.join(d['path'], 'build')
-        d['exclude_patterns'] = ''
-    else:
-        builddir = path.join(srcdir, d['dot'] + 'build')
-        exclude_patterns = map(repr, [
-            d['dot'] + 'build',
-            'Thumbs.db', '.DS_Store',
-        ])
-        d['exclude_patterns'] = ', '.join(exclude_patterns)
+    # if d['sep']:
+    builddir = path.join(d['path'], '_build')
+    d['exclude_patterns'] = ''
+    # else:
+    #     builddir = path.join(srcdir, d['dot'] + 'build')
+    #     exclude_patterns = map(repr, [
+    #         d['dot'] + 'build',
+    #         'Thumbs.db', '.DS_Store',
+    #     ])
+    #     d['exclude_patterns'] = ', '.join(exclude_patterns)
     ensuredir(builddir)
-    ensuredir(path.join(srcdir, d['dot'] + 'templates'))
-    ensuredir(path.join(srcdir, d['dot'] + 'static'))
+    
+    themedir = path.join(d['path'], 'theme')
+    ensuredir(themedir)
+    ensuredir(path.join(themedir + '/templates'))
+    ensuredir(path.join(srcdir + '/_static'))
 
     def write_file(fpath: str, content: str, newline: str = None) -> None:
         if overwrite or not path.isfile(fpath):
@@ -392,7 +399,7 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False, templatedir:
     with open(conf_path) as f:
         conf_text = f.read()
 
-    write_file(path.join(srcdir, 'conf.py'), template.render_string(conf_text, d))
+    write_file(path.join(basepath, 'conf.py'), template.render_string(conf_text, d))
 
     masterfile = path.join(srcdir, d['master'] + d['suffix'])
     write_file(masterfile, template.render('quickstart/master_doc.rst_t', d))
@@ -405,15 +412,15 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False, templatedir:
         batchfile_template = 'quickstart/make.bat_t'
 
     if d['makefile'] is True:
-        d['rsrcdir'] = d['sep'] and 'source' or '.'
-        d['rbuilddir'] = d['sep'] and 'build' or d['dot'] + 'build'
+        d['rsrcdir'] = 'source'
+        d['rbuilddir'] = '_build'
         # use binary mode, to avoid writing \r\n on Windows
         write_file(path.join(d['path'], 'Makefile'),
                    template.render(makefile_template, d), '\n')
 
     if d['batchfile'] is True:
-        d['rsrcdir'] = d['sep'] and 'source' or '.'
-        d['rbuilddir'] = d['sep'] and 'build' or d['dot'] + 'build'
+        d['rsrcdir'] = 'source'
+        d['rbuilddir'] = '_build'
         write_file(path.join(d['path'], 'make.bat'),
                    template.render(batchfile_template, d), '\r\n')
 
