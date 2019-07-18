@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import jupinx
+
 from setuptools import setup, find_packages
 
 VERSION = 'v0.0.1'
@@ -10,10 +12,9 @@ This package contains the Jupinx extension.
 .. add description here ..
 '''
 
-requires = ['Sphinx>=0.6']
+requires = ['Sphinx>=1.8.5']
 
 install_requires = [
-    'sphinxcontrib-jupyter',
     'docutils', 
     'nbformat', 
     'sphinx', 
@@ -25,7 +26,7 @@ install_requires = [
 
 setup(
     name='Jupinx',
-    version=VERSION,
+    version=jupinx.__version__,
     url='https://github.com/QuantEcon/jupinx',
     download_url='https://github.com/QuantEcon/jupinx/archive/{}.tar.gz'.format(VERSION),
     license='BSD',
@@ -53,7 +54,6 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'jupinx-build = jupinx.cmd.build:main',
             'jupinx-quickstart = jupinx.cmd.quickstart:main'
         ]
     },
