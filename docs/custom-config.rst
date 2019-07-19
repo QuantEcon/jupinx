@@ -4,9 +4,9 @@ Custom Configuration
 ====================
 
 This project depends on `sphinxcontrib-jupyter <https://github.com/QuantEcon/sphinxcontrib-jupyter>`__
-to modify `sphinx` to work with Jupyter notebooks. 
+to modify ``sphinx`` to work with Jupyter notebooks. 
 
-Full documentation for the extension can be found `here <http://sphinxcontrib-jupyter.readthedocs.io/en/latest/?badge=latest`__
+Full documentation for the extension can be found `here <http://sphinxcontrib-jupyter.readthedocs.io/en/latest/?badge=latest>`__
 
 An Example
 ----------
