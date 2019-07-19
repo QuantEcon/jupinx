@@ -49,9 +49,9 @@ The following directory structure is adopted during the setup:
 - ``./``
     - ``source``: where source RST files should be added
     - ``source/_static``: where _static assets such as figures and images are kept
-    - ``_theme``: allows you to customise builders using themes and templates
-    - ``Makefile``
-    - ``conf.py``
+    - ``theme``: allows you to customise builders using themes and templates
+    - ``Makefile``: provides ``make`` commands for compiling the project
+    - ``conf.py``: provides configuration for ``sphinx-build``
 
 .. note::
 
