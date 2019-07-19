@@ -276,7 +276,6 @@ def ask_user(d: Dict) -> None:
             if do_prompt('%s package has been found in your system. Would you like to upgrade it? (y/n)' % (name), 'y', boolean):
                 d['extensions'].append(name)
         except ImportError as e:
-            print('Indicate if you would like to install the following package')
             if do_prompt('%s: %s (y/n)' % (name, description), 'y', boolean):
                 d['extensions'].append(name)
         
