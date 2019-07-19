@@ -15,7 +15,7 @@ To install `jupinx <https://github.com/QuantEcon/jupinx>`__:
 .. warning::
 
     This project is **not** yet released through PyPI. Please instead install 
-    using: :code:`python setup.py install` from within a clone of the 
+    using :code:`python setup.py install` from within a clone of the 
     repository.
 
 .. code-block:: bash
@@ -41,8 +41,8 @@ on a terminal.
 The ``jupinx-quickstart`` will:
 
 #. setup a `directory structure <Directory_structure>`_ for your project
-#. check for ``sphinxcontrib-jupyter`` installation
-#. construct ``Makefile`` and `conf.p`` files 
+#. check for ``sphinxcontrib-jupyter`` and ``sphinxcontrib-bibtex`` installation
+#. construct ``Makefile`` and ``conf.py`` files 
 #. a parent document ``source/index.rst``
 
 after running the quickstart you may run ``make jupyter`` to build the project
@@ -63,4 +63,6 @@ The following directory structure is adopted during the setup:
 
     ``sphinx`` is actually quite flexible in setting up a project in a way 
     that suits your workflow. If you want to change directory structure this 
-    is likely possible but you will need to update your ``Makefile``
+    is likely possible but you will need to update your ``Makefile`` after the 
+    quickstart is finished. Please refer to `sphinx docs <http://sphinx-doc.org>`__
+    for further information.
