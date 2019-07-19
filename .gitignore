@@ -1,0 +1,6 @@
+.cache/
+.idea
+Jupinx.egg-info/
+
+jupinx/cmd/__pycache__/
+jupinx/__pycache__/
