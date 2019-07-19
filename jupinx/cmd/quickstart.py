@@ -15,6 +15,7 @@ import pip
 
 import time
 import warnings
+import importlib
 from collections import OrderedDict
 from os import path
 from typing import Any, Callable, Dict, List, Pattern, Union
@@ -47,7 +48,8 @@ from jupinx.util.template import SphinxRenderer
 TERM_ENCODING = getattr(sys.stdin, 'encoding', None)  # RemovedInSphinx40Warning
 
 EXTENSIONS = OrderedDict([
-    ('sphinxcontrib-jupyter', __('A Sphinx Extension for Generating Jupyter Notebooks'))
+    ('sphinxcontrib-jupyter', __('A Sphinx Extension for Generating Jupyter Notebooks')),
+    ('sphinxcontrib-bibtex', __('A Sphinx extension for BibTeX style citations'))
 ])
 
 PROMPT_PREFIX = '> '
@@ -58,6 +60,32 @@ if sys.platform == 'win32':
 else:
     COLOR_QUESTION = 'purple'
 
+KERNELLIST = OrderedDict([
+    ('python3', {
+        "kernelspec": {
+            "display_name": "Python",
+            "language": "python3",
+            "name": "python3"
+            },
+        "file_extension": ".py",
+    }),
+    ('python2', {
+        "kernelspec": {
+            "display_name": "Python",
+            "language": "python2",
+            "name": "python2"
+            },
+        "file_extension": ".py",
+    }),
+    ('julia-1.1', {
+        "kernelspec": {
+            "display_name": "Julia 1.1",
+            "language": "julia",
+            "name": "julia-1.1"
+            },
+        "file_extension": ".jl"
+    })
+])
 
 # function to get input from terminal -- overridden by the test suite
 def term_input(prompt: str) -> str:
@@ -179,6 +207,7 @@ def ask_user(d: Dict) -> None:
     * version:   version of project
     * release:   release of project
     * language:  document language
+    * kernels:   jupyter kernels
     * extensions:  extensions to use (list)
     """
 
@@ -264,21 +293,38 @@ def ask_user(d: Dict) -> None:
         d['master'] = do_prompt(__('Please enter a new file name, or rename the '
                                    'existing file and press Enter'), d['master'])
 
+    ## Ask for kernels to include
+    print()
+    print(__('Select the kernels which you want for your jupyter notebook conversion'))
+    for (key, value) in KERNELLIST.items():
+        d['kernels'][key] = do_prompt('Do you want to have %s in your kernel list? (y/n)' % (key), 'y', boolean)
 
+    # list of extensions to include in the conf file
     d['extensions'] = []
+
+    # list of extensions which require installation
+    d['toinstall'] = []
+
+    ## Ask for sphinx extensions to be installed
     print(__('Indicate which of the following Sphinx extensions should be installed:'))
     for name, description in EXTENSIONS.items():
+        moduleName = name.replace('-','.')
         try:
-            if name == 'sphinxcontrib-jupyter':
-                from sphinxcontrib import jupyter
-            else:
-                import name
+            importlib.import_module(moduleName)
             if do_prompt('%s package has been found in your system. Would you like to upgrade it? (y/n)' % (name), 'y', boolean):
-                d['extensions'].append(name)
+                d['toinstall'].append(name)    
+            d['extensions'].append(moduleName)
+            
         except ImportError as e:
-            if do_prompt('%s: %s (y/n)' % (name, description), 'y', boolean):
-                d['extensions'].append(name)
-        
+            if name == 'sphinxcontrib-jupyter':
+                ## the extensions to install forcefully
+                d['extensions'].append(moduleName)
+                d['toinstall'].append(name)
+            else:
+                ## the extensions which are optional
+                if do_prompt('%s: %s (y/n)' % (name, description), 'y', boolean):
+                    d['extensions'].append(moduleName)
+                    d['toinstall'].append(name)
 
     # # Handle conflicting options
     # if {'sphinx.ext.imgmath', 'sphinx.ext.mathjax'}.issubset(d['extensions']):
@@ -299,7 +345,6 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
 
     d['now'] = time.asctime()
     d['project_underline'] = column_width(d['project']) * '='
-    d.setdefault('extensions', [])
     d['copyright'] = time.strftime('%Y') + ', ' + d['author']
 
     ensuredir(d['path'])
@@ -318,6 +363,10 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     ensuredir(themedir)
     ensuredir(path.join(themedir + '/templates'))
     ensuredir(path.join(srcdir + '/_static'))
+
+    for (key, value) in KERNELLIST.items():
+        if d['kernels'][key] is True:
+            d['kernels'][key] = value
 
     def write_file(fpath: str, content: str, newline: str = None) -> None:
         if overwrite or not path.isfile(fpath):
@@ -350,7 +399,7 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
                 template.render(makefile_template, d), '\n')
 
     ## install all the extensions specified in the extensions list
-    for extension in d['extensions']:
+    for extension in d['toinstall']:
         install(extension)
 
     if silent:
@@ -428,17 +477,25 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     # delete None or False value
     d = {k: v for k, v in d.items() if v is not None}
 
-    # handle use of CSV-style extension values
     d.setdefault('extensions', [])
-    for ext in d['extensions'][:]:
+    # handle use of CSV-style extension values
+    d.setdefault('toinstall', [])
+    for ext in d['toinstall'][:]:
         if ',' in ext:
-            d['extensions'].remove(ext)
-            d['extensions'].extend(ext.split(','))
+            d['toinstall'].remove(ext)
+            d['toinstall'].extend(ext.split(','))
 
     ## Supporting .rst as the default suffix
     d.setdefault('suffix','.rst')
     d.setdefault('master','index')
 
+    ## specifying kernels
+    kernel_obj = {
+        'python3': False,
+        'python2': False,
+        'julia-1.1': False
+    }
+    d.setdefault('kernels', kernel_obj)
 
 
     try:
