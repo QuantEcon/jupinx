@@ -452,7 +452,6 @@ def get_parser() -> argparse.ArgumentParser:
         usage='%(prog)s',
         epilog=__("For more information, visit <https://github.com/QuantEcon/jupinx>."),
         description=description)
-
     return parser
 
 ## function to install packages via pip
