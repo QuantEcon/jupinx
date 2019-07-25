@@ -37,6 +37,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS]',
         description=description)
+    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
     parser.add_argument('-j', '--jupyter', action='store_true', dest='jupyter')
     parser.add_argument('-c', '--coverage', action='store_true', dest='coverage')
 
@@ -55,6 +56,7 @@ def get_minimum_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS]',
         description=description)
+    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
     parser.add_argument('-j', '--jupyter', action='store_true', dest='jupyter')
     parser.add_argument('-c', '--coverage', action='store_true', dest='coverage')
 
