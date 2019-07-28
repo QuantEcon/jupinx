@@ -9,3 +9,5 @@ docs/_build/
 jupinx/cmd/__pycache__/
 jupinx/util/__pycache__/
 jupinx/__pycache__/
+
+.DS_Store

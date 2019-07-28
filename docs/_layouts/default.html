@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,9 +16,8 @@
   <meta charset="utf-8">
   <title>Jupinx</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="https://quantecon.github.io/jupinx/favicon.ico" />
 
-  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" type="text/css" href="{{ "/site.css" | relative_url }}">
   <link rel="stylesheet" href="https://assets.quantecon.org/css/qe-menubar.css">
 
   <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
@@ -95,81 +94,19 @@
 
   </header>
 
-  <div class="section section1">
+  <main>
 
-    <div class="wrapper">
+    <div class="section section1">
 
-      <hr>
+      <div class="wrapper">
 
-      <br>
+      {{ content }}
 
-      <h2>Get Started</h2>
-
-      <h3>Installation</h3>
-
-      <p>To install the extension:</p>
-
-      <p><pre>pip install sphinxcontrib-jupyter</pre></p>
-
-      <p>to upgrade your current installation to the latest version:</p>
-
-      <p><pre>pip install sphinxcontrib-jupyter --upgrade</pre></p>
-
-      <h3>Alternative</h3>
-
-      <p>Another way to get the <strong>latest</strong> version it is to install directly
-      by getting a copy of the <a href="https://github.com/QuantEcon/sphinxcontrib-jupyter">repository</a>:</p>
-
-      <p><pre>git clone https://github.com/QuantEcon/sphinxcontrib-jupyter</pre></p>
-
-      <p>and then use</p>
-
-      <p><pre>python setup.py install</pre></p>
-
-      <h3>Developers</h3>
-
-      <p>For developers it can be useful to install using the <cite>develop</cite> option:</p>
-
-      <p><pre>python setup.py develop</pre></p>
-
-      <p>this will install the package into the <cite>site-wide</cite> package directory which is linked to
-      the code in your local copy of the repository. It is <strong>not</strong> recommended to install this
-      way for common use.</p>
-
-      <br>
-
-      <hr>
-
-      <br>
-
-      <h2>About the tool</h2>
-
-      <p>This sphinx extension can be used to build a collection of <a href="http://jupyter.org">Jupyter</a> notebooks for Sphinx Projects.</p>
-
-      <p>One of the main benefits of writing Jupyter notebooks as <code>RST</code> files is to simplify the task of version control for large projects.</p>
-
-      <h3>Credits</h3>
-
-      <p>This project is supported by <a href="https://www.quantecon.org">QuantEcon</a></p>
-
-      <p>Many thanks to the lead developers of this project.</p>
-
-      <ul>
-        <li><a href="https://github.com/AakashGfude">@AakashGfude</a></li>
-        <li><a href="https://github.com/mmcky">@mmcky</a></li>
-        <li><a href="https://github.com/NickSifniotis">@NickSifniotis</a></li>
-        <li><a href="https://github.com/myuuuuun">@myuuuuun</a></li>
-      </ul>
-
-      <h3>Contributors</h3>
-
-      <ul>
-        <li><a href="https://github.com/FelipeMaldonado">FelipeMaldonado</a></li>
-      </ul>
+      </div>
 
     </div>
 
-  </div>
+  </main>
 
 </body>
 
