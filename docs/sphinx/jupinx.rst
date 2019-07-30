@@ -16,14 +16,14 @@ Installation
 
 To install `jupinx`:
 
-.. code-block::
+.. code-block:: bash
 
     pip install jupinx
 
 
 to upgrade your current installation to the latest version:
 
-.. code-block::
+.. code-block:: bash
     
     pip install jupinx --upgrade
 
@@ -32,7 +32,7 @@ Usage
 
 To build a collection of notebooks using `jupinx`:
 
-.. code-block::
+.. code-block:: bash
 
     jupinx --notebooks <path_to_project>
 
@@ -46,7 +46,7 @@ use of Jupyter Notebooks ability to execute code so output is
 not required in any of the source files. The website can be 
 completely built (including all code and generated components).
 
-.. code-block::
+.. code-block:: bash
 
     jupinx --website <path_to_project>
 
@@ -54,7 +54,7 @@ documentation regarding options for building websites can be found `here <https:
 
 You can also see all command line options available using:
 
-.. code-block::
+.. code-block:: bash
     
     jupinx --help
 
