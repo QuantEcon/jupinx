@@ -55,16 +55,17 @@ def get_parser() -> argparse.ArgumentParser:
         description=description,
         epilog="Further documentation is available: https://quantecon.github.io/jupinx/.\n",
         )
-    parser.add_argument('-c', '--coverage', action='store_true', dest='coverage',
+    group = parser.add_argument_group(__('arguments'))
+    group.add_argument('-c', '--coverage', action='store_true', dest='coverage',
                         help="compile coverage report for project (result: _build/coverage/reports/{filename}.json")
-    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
+    group.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help="compile a collection of Jupyter notebooks (result: _build/jupyter)")
-    parser.add_argument('-w', '--website', action='store_true', dest='website',
+    group.add_argument('-w', '--website', action='store_true', dest='website',
                         help="compile a website through Jupyter notebooks (result: _build/website/")
-    parser.add_argument('--version', action='version', dest='show_version',
+    group.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     
-    group = parser.add_argument_group(__('additional options'))
+    group = parser.add_argument_group(__('optional arguments'))
     group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
                         help="provide path to a project directory")
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
@@ -79,13 +80,14 @@ def get_minimum_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] ',
         description=description)
-    parser.add_argument('-c', '--coverage', action='store_true', dest='coverage')
-    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
-    parser.add_argument('-w', '--website', action='store_true', dest='website')
-    parser.add_argument('--version', action='version', dest='show_version',
+    group = parser.add_argument_group(__('arguments'))
+    group.add_argument('-c', '--coverage', action='store_true', dest='coverage')
+    group.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
+    group.add_argument('-w', '--website', action='store_true', dest='website')
+    group.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
 
-    group = parser.add_argument_group(__('additional options'))
+    group = parser.add_argument_group(__('optional arguments'))
     group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
                         help="provide path to a project directory")
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
