@@ -3,6 +3,10 @@
 Jupinx `cmd` line utility
 =========================
 
+.. contents::
+    :depth: 1
+    :local:
+
 The `jupinx` command line utility.
 
 .. note::
@@ -51,7 +55,8 @@ completely built (including all code and generated components).
 
     jupinx --website
 
-documentation regarding options for building websites can be found `here <https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-extension-html.html>`__
+documentation regarding options for building websites can be found 
+`here <https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-extension-html.html>`__
 
 You can also see all command line options available using:
 
@@ -60,3 +65,27 @@ You can also see all command line options available using:
     jupinx --help
 
 
+Options
+-------
+
+The following **build** options are provided:
+
+-n, --notebooks     compile a set of Jupyter notebooks
+                    [_build/jupyter]
+-w, --website       compile notebooks and convert to HTML
+                    [_build/website]
+-c, --coverage      compile notebooks and run coverage tests
+                    [_build/coverage]
+
+
+Additional options can be provided:
+
+
+-p, --parallel          request notebook execution and conversion 
+                        to be processed in parallel. An integer 
+                        may be specified to assign the number of 
+                        dask workers. [**Default:** 2] 
+                        *Example:* jupinx -w -p=4
+-d, --directory         provide directory where Sphinx project is 
+                        located. [**Default:** Current Working Directory]
+                        *Example:* jupinx -n -d=repos/lecture-source-py/

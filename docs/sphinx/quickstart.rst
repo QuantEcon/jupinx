@@ -7,6 +7,10 @@ A quickstart utility has been developed to help users get setup quickly
 with Sphinx, configured in a way to get building collections of Jupyter notebooks 
 quickly. 
 
+.. contents:
+   :depth: 1
+   :local:
+
 Installation
 ------------
 
