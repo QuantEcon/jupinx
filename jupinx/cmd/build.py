@@ -33,15 +33,28 @@ def get_parser() -> argparse.ArgumentParser:
         "\n"
         "Jupinx command line tool.\n"
         "\n"
+        "Provides a collection of utilities for Jupyter and Sphinx Projects.\n"
+        "If you would like to setup a new project please use: jupinx-quickstart.\n"
+        "\n"
+        "Examples:\n"
+        "    jupinx --notebooks (within a project directory)\n"
+        "    jupinx -n -d lecture-source-py (specified path to project directory)\n"
+        "\n"
     )
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS]',
-        description=description)
-    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
-    parser.add_argument('-j', '--jupyter', action='store_true', dest='jupyter')
-    parser.add_argument('-c', '--coverage', action='store_true', dest='coverage')
-
-    parser.add_argument('-w', '--website', action='store_true', dest='website')
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=description,
+        epilog="Further documentation is available: https://quantecon.github.io/jupinx/.\n",
+        )
+    parser.add_argument('-c', '--coverage', action='store_true', dest='coverage',
+                        help="compile coverage report for project (result: _build/coverage/reports/{filename}.json")
+    parser.add_argument('-d', '--directory', action='store_true', dest="directory", 
+                        help="provide path to a project directory")
+    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
+                        help="compile a collection of Jupyter notebooks (result: _build/jupyter)")
+    parser.add_argument('-w', '--website', action='store_true', dest='website',
+                        help="compile a website through Jupyter notebooks (result: _build/website/")
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     return parser
@@ -50,22 +63,29 @@ def get_parser() -> argparse.ArgumentParser:
 def get_minimum_parser() -> argparse.ArgumentParser:
     description = __(
         "\n"
-        "Minimal help tool.\n"
-        "\n"
+        "Jupinx command line tool.\n"
     )
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS]',
         description=description)
-    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
-    parser.add_argument('-j', '--jupyter', action='store_true', dest='jupyter')
+    parser.add_argument('-d', '--directory', action='store_true', dest='directory')
     parser.add_argument('-c', '--coverage', action='store_true', dest='coverage')
-
+    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
     parser.add_argument('-w', '--website', action='store_true', dest='website')
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     return parser
 
 def make_file_actions(arg_dict: Dict):
+    """
+    Current Approach is to trigger calls to the Makefile contained in the project
+    directory for sphinx-build using subprocesses.
+
+    .. todo::
+
+        Support sphinx-build directly using Invoke or some other library in the future
+        will allow for advanced configuration options to be available through this tool.
+    """
     if 'website' in arg_dict:
         if sys.version_info.major == 2:
             subprocess.call(['make','website'])
