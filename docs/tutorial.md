@@ -1,7 +1,7 @@
 ---
 title: Tutorial
 layout: default
-permalink: /
+permalink: /tutorial.html
 ---
 
 Tutorial: Setting up a Project
