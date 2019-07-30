@@ -10,51 +10,58 @@ permalink: /
 
 ### Installation
 
-To install the extension:
+To install `Jupinx`:
 
-<pre>pip install sphinxcontrib-jupyter</pre>
+```
+pip install jupinx
+```
 
 to upgrade your current installation to the latest version:
 
-<pre>pip install sphinxcontrib-jupyter --upgrade</pre>
+```
+pip install jupinx --upgrade
+```
 
-### Alternative
 
-Another way to get the **latest** version it is to install directly by getting a copy of the [repository](https://github.com/QuantEcon/sphinxcontrib-jupyter):
+### Quickstart
 
-<pre>git clone https://github.com/QuantEcon/sphinxcontrib-jupyter</pre>
+When starting your own projects a `jupinx-quickstart` is available that will guide you through the initial setup
+of a sphinx project that is setup to use the [sphinxcontrib-jupyter](https://github.com/QuantEcon/sphinxcontrib-jupyter)
+extension.
 
-and then use
+Open a terminal and make a folder for your project. Then run:
 
-<pre>python setup.py install</pre>
+```
+jupinx-quickstart
+```
 
-### Developers
+and follow the on-screen questions.
 
-For developers it can be useful to install using the <cite>develop</cite> option:
+### Usage
 
-<pre>python setup.py develop</pre>
+To build a collection of notebooks using `Jupinx`:
 
-this will install the package into the <cite>site-wide</cite> package directory which is linked to the code in your local copy of the repository. It is **not** recommended to install this way for common use.
+```
+jupinx --notebooks <path_to_project>
+```
 
-* * *
+Additional compilation options are available and details can be found in the [documentation](https://jupinx.readthedocs.io/)
 
-## About the tool
+You can also see the option using:
 
-This sphinx extension can be used to build a collection of [Jupyter](http://jupyter.org) notebooks for Sphinx Projects.
+```
+jupinx --help
+```
 
-One of the main benefits of writing Jupyter notebooks as `RST` files is to simplify the task of version control for large projects.
 
-### Credits
+### Advanced Configuration
 
-This project is supported by [QuantEcon](https://www.quantecon.org)
+The quickstart will get you up and running to build Jupyter notebooks. However you may want more advanced control 
+of your project. The [sphinxcontrib-jupyter extension](https://github.com/QuantEcon/sphinxcontrib-jupyter) can be
+configured to:
 
-Many thanks to the lead developers of this project.
+1. Enable Notebook Execution (after construction)
+1. Enable the construction of a website (from the ipynb collection)
 
-*   [@AakashGfude](https://github.com/AakashGfude)
-*   [@mmcky](https://github.com/mmcky)
-*   [@NickSifniotis](https://github.com/NickSifniotis)
-*   [@myuuuuun](https://github.com/myuuuuun)
+Documentation can be found [here](https://jupinx.readthedocs.io/en/latest/?badge=latest)
 
-### Contributors
-
-*   [FelipeMaldonado](https://github.com/FelipeMaldonado)
