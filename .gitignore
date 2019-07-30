@@ -4,8 +4,11 @@ Jupinx.egg-info/
 build/
 dist/
 
-docs/_build/
+docs/sphinx/_build/
+docs/_site
 
 jupinx/cmd/__pycache__/
 jupinx/util/__pycache__/
 jupinx/__pycache__/
+
+.DS_Store
