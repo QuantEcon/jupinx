@@ -26,8 +26,9 @@ import sphinx.locale
 from sphinx.locale import __
 from jupinx import __display_version__, package_dir
 from sphinx.util.osutil import ensuredir
+import logging
 
-
+logging.basicConfig(format='%(levelname)s: %(message)s')
 ### This is a full blown manual and help tool which describes the functionality and usage of jupinx cmd
 def get_parser() -> argparse.ArgumentParser:
     description = __(
@@ -50,8 +51,6 @@ def get_parser() -> argparse.ArgumentParser:
         )
     parser.add_argument('-c', '--coverage', action='store_true', dest='coverage',
                         help="compile coverage report for project (result: _build/coverage/reports/{filename}.json")
-    parser.add_argument('-d', '--directory', action='store_true', dest="directory", 
-                        help="provide path to a project directory")
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help="compile a collection of Jupyter notebooks (result: _build/jupyter)")
     parser.add_argument('-w', '--website', action='store_true', dest='website',
@@ -60,6 +59,8 @@ def get_parser() -> argparse.ArgumentParser:
                         version='%%(prog)s %s' % __display_version__)
     
     group = parser.add_argument_group(__('additional options'))
+    group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
+                        help="provide path to a project directory")
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
     return parser
 
@@ -72,7 +73,6 @@ def get_minimum_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] ',
         description=description)
-    parser.add_argument('-d', '--directory', action='store_true', dest='directory')
     parser.add_argument('-c', '--coverage', action='store_true', dest='coverage')
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
     parser.add_argument('-w', '--website', action='store_true', dest='website')
@@ -80,20 +80,39 @@ def get_minimum_parser() -> argparse.ArgumentParser:
                         version='%%(prog)s %s' % __display_version__)
 
     group = parser.add_argument_group(__('additional options'))
+    group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
+                        help="provide path to a project directory")
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
     return parser
 
+def check_directory_makefile(arg_dict):
+    dir = None
+    try:
+        dir = arg_dict['directory']
+    except:
+        logging.error("Please specify a directory")
+        return False
+
+    if os.path.exists(dir) is False:
+       logging.error("Specified directory does not exist")
+       return False
+    if os.path.isfile(dir + "/Makefile") is False:
+       logging.error("Makefile not found in the directory")
+       return False
+
 def handle_make_parallel(cmd, arg_dict):
+    if check_directory_makefile(arg_dict) is False:
+        exit()
     if sys.version_info.major == 2:
         if 'parallel' in arg_dict:
-            subprocess.call(['make', cmd, 'parallel=' + str(arg_dict['parallel'])])
+            subprocess.call(['make', cmd, 'parallel=' + str(arg_dict['parallel'])], cwd=arg_dict['directory'])
         else:
-            subprocess.call(['make', cmd])
+            subprocess.call(['make', cmd], cwd=arg_dict['directory'])
     else:
         if 'parallel' in arg_dict:
-            subprocess.run(['make', cmd, 'parallel=' + str(arg_dict['parallel'])])
+            subprocess.run(['make', cmd, 'parallel=' + str(arg_dict['parallel'])], cwd=arg_dict['directory'])
         else:
-            subprocess.run(['make', cmd])
+            subprocess.run(['make', cmd], cwd=arg_dict['directory'])
 
 def make_file_actions(arg_dict: Dict):
     """
@@ -130,8 +149,7 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     d = vars(args)
 
     # delete None or False value and handle int
-    d = {k: v for k, v in d.items() if v is (not False and not None) or (type(v) == int)}
-
+    d = {k: v for k, v in d.items() if v is (not False and not None) or (type(v) == int) or (type(v) == str)}
     ## no option specified then show a minimal help tool
     if not d:
         minimal_parser.print_help()
