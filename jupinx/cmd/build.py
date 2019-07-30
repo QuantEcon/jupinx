@@ -13,6 +13,7 @@ import re
 import subprocess
 import sys
 import pip
+import copy
 
 import time
 import warnings
@@ -27,6 +28,11 @@ from sphinx.locale import __
 from jupinx import __display_version__, package_dir
 from sphinx.util.osutil import ensuredir
 import logging
+
+ADDITIONAL_OPTIONS = [
+    'directory',
+    'parallel'
+]
 
 logging.basicConfig(format='%(levelname)s: %(message)s')
 ### This is a full blown manual and help tool which describes the functionality and usage of jupinx cmd
@@ -133,6 +139,23 @@ def make_file_actions(arg_dict: Dict):
     if 'jupyter' in arg_dict:
         handle_make_parallel('jupyter', arg_dict)
 
+def deleteDefaultValues(d):
+    valid = False
+
+    # delete None or False value and handle int and str for argparse const
+    d = {k: v for k, v in d.items() if v is (not False and not None) or (type(v) == int) or (type(v) == str)}
+    temp = copy.deepcopy(d)
+
+    # remove any additional options
+    for option in ADDITIONAL_OPTIONS:
+        if option in temp:
+            del temp[option]
+
+    if len(temp) > 0:
+        valid = True
+
+    return [d, valid]
+
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
     sphinx.locale.setlocale(locale.LC_ALL, '')
@@ -148,10 +171,13 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
    
     d = vars(args)
 
-    # delete None or False value and handle int
-    d = {k: v for k, v in d.items() if v is (not False and not None) or (type(v) == int) or (type(v) == str)}
+
+    [d, valid] = deleteDefaultValues(d)
+
+
+
     ## no option specified then show a minimal help tool
-    if not d:
+    if valid is False:
         minimal_parser.print_help()
     else:
         make_file_actions(d)
