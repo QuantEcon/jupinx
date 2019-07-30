@@ -18,7 +18,9 @@ pip install jupinx
 
 to upgrade your current installation to the latest version:
 
-<pre>pip install jupinx --upgrade</pre>
+```
+pip install jupinx --upgrade
+```
 
 
 ### Quickstart
@@ -41,7 +43,8 @@ The quickstart will get you up and running to build Jupyter notebooks. However y
 of your project. The [sphinxcontrib-jupyter extension](https://github.com/QuantEcon/sphinxcontrib-jupyter) can be
 configured to:
 
-#. Enable Notebook Execution (after construction)
-#. Enable the construction of a website (from the ipynb collection)
+1. Enable Notebook Execution (after construction)
+1. Enable the construction of a website (from the ipynb collection)
 
+Documentation can be found [here](https://jupinx.readthedocs.io/en/latest/?badge=latest)
 
