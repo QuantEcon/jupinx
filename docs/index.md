@@ -47,7 +47,7 @@ jupinx --notebooks <path_to_project>
 
 Additional compilation options are available and details can be found in the [documentation](https://jupinx.readthedocs.io/)
 
-You can also see the option using:
+You can also see the options available using:
 
 ```
 jupinx --help
