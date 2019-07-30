@@ -24,6 +24,13 @@ pre {
   background-color: rgba(255, 207, 61, 0.07);
   border: 1px solid rgba(255, 207, 61, 0.3);
   font-size: 0.9rem;
+  overflow-x: auto;
+  white-space: pre;
+  word-wrap: normal;
+}
+
+img {
+  max-width: 100%;
 }
 
 .button {
@@ -95,19 +102,26 @@ pre {
 }
 
 @media (max-width: 1023px) {
+  .wrapper {
+    padding: 2rem 1rem;
+  }
   .header .wrapper {
     display: block;
   }
   .header-branding {
     width:auto;
+    text-align: center;
   }
   .header-logo {
-    text-align: center;
     left:0;
   }
   .header-links {
     width:auto;
     justify-content: space-around;
+  }
+  .header-links ul {
+    display: block;
+    text-align: center;
   }
   .header-links ul li {
     margin:1rem 1rem;
