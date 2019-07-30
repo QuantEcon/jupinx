@@ -22,7 +22,6 @@ to upgrade your current installation to the latest version:
 pip install jupinx --upgrade
 ```
 
-
 ### Quickstart
 
 When starting your own projects a `jupinx-quickstart` is available that will guide you through the initial setup
@@ -36,6 +35,12 @@ jupinx-quickstart
 ```
 
 and follow the on-screen questions.
+
+.. note::
+
+    You may also specify a target folder during the quickstart process. However
+    that folder must already exist.
+
 
 ### Usage
 
