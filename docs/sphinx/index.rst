@@ -10,7 +10,8 @@ Jupinx is a collection of utilities and tools for Jupyter and Sphinx
    :caption: Contents:
 
    quickstart
-   custom-config
+   jupinx
+   sphinxcontrib-jupyter
 
 
 Credits

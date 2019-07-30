@@ -1,10 +1,10 @@
-.. _custom_configuration:
+.. _sphinxcontrib-jupyter:
 
-Custom Configuration
-====================
+Custom Configuration through `sphinxcontrib-jupyter <https://github.com/QuantEcon/sphinxcontrib-jupyter>`__
+===========================================================================================================
 
 This project depends on `sphinxcontrib-jupyter <https://github.com/QuantEcon/sphinxcontrib-jupyter>`__
-to modify ``sphinx`` to work with Jupyter notebooks. 
+to enhance ``sphinx`` to build and work with Jupyter notebooks. 
 
 Full documentation for the extension can be found `here <http://sphinxcontrib-jupyter.readthedocs.io/en/latest/?badge=latest>`__
 
