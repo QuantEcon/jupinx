@@ -37,6 +37,23 @@ jupinx-quickstart
 
 and follow the on-screen questions.
 
+### Usage
+
+To build a collection of notebooks using `Jupinx`:
+
+```
+jupinx --notebooks <path_to_project>
+```
+
+Additional compilation options are available and details can be found in the [documentation](https://jupinx.readthedocs.io/)
+
+You can also see the option using:
+
+```
+jupinx --help
+```
+
+
 ### Advanced Configuration
 
 The quickstart will get you up and running to build Jupyter notebooks. However you may want more advanced control 
