@@ -7,26 +7,16 @@
 """
 
 import argparse
-import locale
 import os
-import re
 import subprocess
 import sys
-import pip
 import copy
-
-import time
-import warnings
-import importlib
-from collections import OrderedDict
-from os import path
-import subprocess
 from typing import Dict, List
 
+import locale
 import sphinx.locale
 from sphinx.locale import __
 from jupinx import __display_version__, package_dir
-from sphinx.util.osutil import ensuredir
 import logging
 
 ADDITIONAL_OPTIONS = [
