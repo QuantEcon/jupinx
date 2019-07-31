@@ -38,7 +38,13 @@ To build a collection of notebooks using `jupinx`:
 
 .. code-block:: bash
 
-    jupinx --notebooks --directory <PATH>
+    jupinx --notebooks <PATH-PROJECT-DIRECTORY>
+
+or
+
+.. code-block:: bash
+
+    jupinx -n <PATH-PROJECT-DIRECTORY>
 
 .. note::
 
@@ -53,20 +59,43 @@ completely built (including all code and generated components).
 
 .. code-block:: bash
 
-    jupinx --website
+    jupinx --website <PATH-PROJECT-DIRECTORY>
+
+.. note::
+
+    There is currently no default template provided for constructing websites.
+    This needs to be provided in the future to allow building websites out of
+    the box with a default theme.
+
+or 
+
+.. code-block:: bash
+
+    jupinx -w <PATH-PROJECT-DIRECTORY>
 
 documentation regarding options for building websites can be found 
 `here <https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-extension-html.html>`__
 
-You can also see all command line options available using:
+All command line options available can be listed using the help flag:
 
 .. code-block:: bash
     
     jupinx --help
 
+or 
+
+.. code-block:: bash
+
+    jupinx -h
 
 Options
 -------
+
+The typical usage for ``jupinx`` is:
+
+.. code-block:: bash
+
+    jupinx [BUILDOPTIONS] <PATH-PROJECT-DIRECTORY> [OPTIONS]
 
 The following **build** options are provided:
 
@@ -78,14 +107,16 @@ The following **build** options are provided:
                     [_build/coverage]
 
 
-Additional options can be provided:
-
+Additional options include:
 
 -p, --parallel          request notebook execution and conversion 
                         to be processed in parallel. An integer 
                         may be specified to assign the number of 
                         dask workers. [**Default:** 2] 
                         *Example:* jupinx -w -p=4
--d, --directory         provide directory where Sphinx project is 
-                        located. [**Default:** Current Working Directory]
-                        *Example:* jupinx -n -d=repos/lecture-source-py/
+
+.. todo::
+
+    implement -v, --view for automatically loading jupyter notebook or 
+    web server for viewing generated outputs on your local machine.
+    See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)
