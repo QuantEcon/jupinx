@@ -74,27 +74,6 @@ def get_parser() -> argparse.ArgumentParser:
                         help='Specify the number of workers for parallel execution. [Default --parallel 2]')
     return parser
 
-### This is a minimum help tool which can be shown in cases where the user has not input any options to jupinx cmd
-def get_minimum_parser() -> argparse.ArgumentParser:
-    description = __(
-        "\n"
-        "Jupinx command line tool.\n"
-    )
-    parser = argparse.ArgumentParser(
-        usage='%(prog)s [OPTIONS] ',
-        description=description)
-    group = parser.add_argument_group(__('arguments'))
-    group.add_argument('-c', '--coverage', action='store_true', dest='coverage')
-    group.add_argument('-n', '--notebooks', action='store_true', dest='jupyter')
-    group.add_argument('-w', '--website', action='store_true', dest='website')
-    group.add_argument('--version', action='version', dest='show_version',
-                        version='%%(prog)s %s' % __display_version__)
-    group = parser.add_argument_group(__('optional arguments'))
-    group.add_argument('directory', nargs='?', type=str, default='./', action='store', 
-                        help="provide path to a project directory")
-    group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
-    return parser
-
 def check_directory_makefile(arg_dict):
     dir = None
     try:
@@ -167,7 +146,6 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
     ## parse options
     parser = get_parser()
-    minimal_parser = get_minimum_parser()
     try:
         args = parser.parse_args(argv)
     except SystemExit as err:
@@ -178,9 +156,9 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
     [d, valid] = deleteDefaultValues(d)
 
-    ## no option specified then show a minimal help tool
+    ## no option specified then show help tool
     if valid is False:
-        minimal_parser.print_help()
+        parser.print_help()
     else:
         make_file_actions(d)
 
