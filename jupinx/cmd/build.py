@@ -44,31 +44,32 @@ def get_parser() -> argparse.ArgumentParser:
         "Provides a collection of utilities for Jupyter and Sphinx Projects.\n"
         "If you would like to setup a new project please use: jupinx-quickstart.\n"
         "\n"
+    )
+    epilog = __(
+        "\n"
         "Examples:\n"
         "    jupinx --notebooks (within a project directory)\n"
-        "    jupinx -n -d lecture-source-py (specified path to project directory)\n"
+        "    jupinx -n lecture-source-py (specify path to project directory)\n"
         "\n"
+        "Further documentation is available: https://quantecon.github.io/jupinx/.\n"
     )
     parser = argparse.ArgumentParser(
-        usage='%(prog)s [OPTIONS]',
+        usage='%(prog)s [OPTIONS] <PROJECT-DIRECTORY>',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=description,
-        epilog="Further documentation is available: https://quantecon.github.io/jupinx/.\n",
+        epilog=epilog,
         )
-    group = parser.add_argument_group(__('arguments'))
-    group.add_argument('-c', '--coverage', action='store_true', dest='coverage',
+    parser.add_argument('-c', '--coverage', action='store_true', dest='coverage',
                         help="compile coverage report for project (result: _build/coverage/reports/{filename}.json")
-    group.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
+    parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help="compile a collection of Jupyter notebooks (result: _build/jupyter)")
-    group.add_argument('-w', '--website', action='store_true', dest='website',
+    parser.add_argument('-w', '--website', action='store_true', dest='website',
                         help="compile a website through Jupyter notebooks (result: _build/website/")
-    group.add_argument('--version', action='version', dest='show_version',
+    parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
-    
-    group = parser.add_argument_group(__('optional arguments'))
-    group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
-                        help="provide path to a project directory")
-    group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
+    group = parser.add_argument_group(__('additional arguments'))
+    group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
+                        help='Specify the number of workers for parallel execution. [Default --parallel 2]')
     return parser
 
 ### This is a minimum help tool which can be shown in cases where the user has not input any options to jupinx cmd
@@ -86,10 +87,7 @@ def get_minimum_parser() -> argparse.ArgumentParser:
     group.add_argument('-w', '--website', action='store_true', dest='website')
     group.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
-
     group = parser.add_argument_group(__('optional arguments'))
-    group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
-                        help="provide path to a project directory")
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
     return parser
 
