@@ -1,9 +1,7 @@
 ``Jupinx`` Documentation
-=======================================
+========================
 
 Jupinx is a collection of utilities and tools for Jupyter and Sphinx
-
-**Requires:** Sphinx >= 1.8.5 (for running tests).
 
 .. toctree::
    :maxdepth: 1

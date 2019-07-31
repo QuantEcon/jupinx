@@ -178,7 +178,4 @@ make clean    #Clear Sphinx Cache to Rebuild Files from Scratch
 make jupyter
 ```
 
-.. note:: 
-
-    The [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html) has a section on Managing Large Projects that may require
-    different compilation pipelines for editing and publishing. 
+> **_NOTE:_** The [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html) has a section on Managing Large Projects that may require different compilation pipelines for editing and publishing. 
