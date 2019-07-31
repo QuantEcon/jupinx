@@ -3,6 +3,10 @@
 Jupinx `cmd` line utility
 =========================
 
+.. contents::
+    :depth: 1
+    :local:
+
 The `jupinx` command line utility.
 
 .. note::
@@ -34,7 +38,13 @@ To build a collection of notebooks using `jupinx`:
 
 .. code-block:: bash
 
-    jupinx --notebooks --directory <PATH>
+    jupinx --notebooks <PATH-PROJECT-DIRECTORY>
+
+or
+
+.. code-block:: bash
+
+    jupinx -n <PATH-PROJECT-DIRECTORY>
 
 .. note::
 
@@ -49,14 +59,64 @@ completely built (including all code and generated components).
 
 .. code-block:: bash
 
-    jupinx --website
+    jupinx --website <PATH-PROJECT-DIRECTORY>
 
-documentation regarding options for building websites can be found `here <https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-extension-html.html>`__
+.. note::
 
-You can also see all command line options available using:
+    There is currently no default template provided for constructing websites.
+    This needs to be provided in the future to allow building websites out of
+    the box with a default theme.
+
+or 
+
+.. code-block:: bash
+
+    jupinx -w <PATH-PROJECT-DIRECTORY>
+
+documentation regarding options for building websites can be found 
+`here <https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-extension-html.html>`__
+
+All command line options available can be listed using the help flag:
 
 .. code-block:: bash
     
     jupinx --help
 
+or 
 
+.. code-block:: bash
+
+    jupinx -h
+
+Options
+-------
+
+The typical usage for ``jupinx`` is:
+
+.. code-block:: bash
+
+    jupinx [BUILDOPTIONS] <PATH-PROJECT-DIRECTORY> [OPTIONS]
+
+The following **build** options are provided:
+
+-n, --notebooks     compile a set of Jupyter notebooks
+                    [_build/jupyter]
+-w, --website       compile notebooks and convert to HTML
+                    [_build/website]
+-c, --coverage      compile notebooks and run coverage tests
+                    [_build/coverage]
+
+
+Additional options include:
+
+-p, --parallel          request notebook execution and conversion 
+                        to be processed in parallel. An integer 
+                        may be specified to assign the number of 
+                        dask workers. [**Default:** 2] 
+                        *Example:* jupinx -w -p=4
+
+.. todo::
+
+    implement -v, --view for automatically loading jupyter notebook or 
+    web server for viewing generated outputs on your local machine.
+    See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)

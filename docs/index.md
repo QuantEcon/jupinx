@@ -36,10 +36,8 @@ jupinx-quickstart
 
 and follow the on-screen questions.
 
-.. note::
-
-    You may also specify a target folder during the quickstart process. However
-    that folder must already exist.
+> **_NOTE:_**  You may also specify a target folder during the quickstart process. 
+> However that folder must already exist.
 
 
 ### Usage

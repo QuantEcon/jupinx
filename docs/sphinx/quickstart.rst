@@ -7,6 +7,10 @@ A quickstart utility has been developed to help users get setup quickly
 with Sphinx, configured in a way to get building collections of Jupyter notebooks 
 quickly. 
 
+.. contents:
+   :depth: 1
+   :local:
+
 Installation
 ------------
 
@@ -43,7 +47,7 @@ The ``jupinx-quickstart`` will:
 #. setup a `directory structure <Directory_structure>`_ for your project
 #. check for ``sphinxcontrib-jupyter`` and ``sphinxcontrib-bibtex`` installation
 #. construct ``Makefile`` and ``conf.py`` files 
-#. a parent document ``source/index.rst``
+#. construct a parent document ``source/index.rst``
 
 after running the quickstart you may run ``make jupyter`` to build the project
 
@@ -61,7 +65,7 @@ The following directory structure is adopted during the setup:
 
 .. note::
 
-    ``sphinx`` is actually quite flexible in setting up a project in a way 
+    ``sphinx`` is quite flexible in setting up a project in a way 
     that suits your workflow. If you want to change directory structure this 
     is likely possible but you will need to update your ``Makefile`` after the 
     quickstart is finished. Please refer to `sphinx docs <http://sphinx-doc.org>`__

@@ -154,9 +154,7 @@ cd _build/jupyter
 jupyter notebook
 ```
 
-.. note:: 
-
-    In future this should be added to `jupinx`. See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)
+> **_NOTE:_**  In future this should be added to `jupinx`. See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)
 
 
 Step 5: Advanced Configuration of `sphinxcontrib-jupyter`
@@ -180,7 +178,4 @@ make clean    #Clear Sphinx Cache to Rebuild Files from Scratch
 make jupyter
 ```
 
-.. note:: 
-
-    The [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html) has a section on Managing Large Projects that may require
-    different compilation pipelines for editing and publishing. 
+> **_NOTE:_** The [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html) has a section on Managing Large Projects that may require different compilation pipelines for editing and publishing. 

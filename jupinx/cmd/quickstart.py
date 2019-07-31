@@ -19,6 +19,7 @@ import importlib
 from collections import OrderedDict
 from os import path
 from typing import Any, Callable, Dict, List, Pattern, Union
+from distutils.dir_util import copy_tree
 
 # try to import readline, unix specific enhancement
 try:
@@ -364,6 +365,10 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     ensuredir(path.join(themedir + '/templates'))
     ensuredir(path.join(srcdir + '/_static'))
 
+    ## copying the html template files
+    html_theme_path = os.path.join(package_dir, 'templates', 'html')
+    copy_tree(html_theme_path + "/",themedir + '/templates/', preserve_symlinks=1)
+
     for (key, value) in KERNELLIST.items():
         if d['kernels'][key] is True:
             d['kernels'][key] = value
@@ -452,7 +457,6 @@ def get_parser() -> argparse.ArgumentParser:
         usage='%(prog)s',
         epilog=__("For more information, visit <https://github.com/QuantEcon/jupinx>."),
         description=description)
-
     return parser
 
 ## function to install packages via pip
