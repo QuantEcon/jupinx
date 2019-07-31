@@ -154,9 +154,7 @@ cd _build/jupyter
 jupyter notebook
 ```
 
-.. note:: 
-
-    In future this should be added to `jupinx`. See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)
+> **_NOTE:_**  In future this should be added to `jupinx`. See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)
 
 
 Step 5: Advanced Configuration of `sphinxcontrib-jupyter`
