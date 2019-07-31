@@ -66,7 +66,7 @@ def get_parser() -> argparse.ArgumentParser:
                         version='%%(prog)s %s' % __display_version__)
     
     group = parser.add_argument_group(__('optional arguments'))
-    group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
+    group.add_argument('directory', nargs='?', type=str, default='./', action='store', 
                         help="provide path to a project directory")
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
     return parser
@@ -88,7 +88,7 @@ def get_minimum_parser() -> argparse.ArgumentParser:
                         version='%%(prog)s %s' % __display_version__)
 
     group = parser.add_argument_group(__('optional arguments'))
-    group.add_argument('-d', '--directory', nargs='?', type=str, default='./', action='store', dest="directory", 
+    group.add_argument('directory', nargs='?', type=str, default='./', action='store', 
                         help="provide path to a project directory")
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store')
     return parser
@@ -145,7 +145,7 @@ def deleteDefaultValues(d):
     valid = False
 
     # delete None or False value and handle int and str for argparse const
-    d = {k: v for k, v in d.items() if v is (not False and not None) or (type(v) == int) or (type(v) == str)}
+    d = {k: v for k, v in d.items() if v is (not False) or (type(v) == int) or (type(v) == str) or isinstance(v, list)}
     temp = copy.deepcopy(d)
 
     # remove any additional options
@@ -175,8 +175,6 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
 
     [d, valid] = deleteDefaultValues(d)
-
-
 
     ## no option specified then show a minimal help tool
     if valid is False:
