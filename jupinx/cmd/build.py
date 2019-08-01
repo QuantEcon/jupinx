@@ -104,11 +104,11 @@ def handle_make_preview(arg_dict):
     print(arg_dict['view'])
     target = str(arg_dict['view']).lower()
     if target == "website":
-        cmd = ['make', 'preview', 'target=website']
+        cmd = ['make', 'preview', 'target=website', 'PORT=8900']
         print("Running: " + " ".join(cmd))
         catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
     elif target == "notebooks":
-        cmd = ['make', 'preview']
+        cmd = ['make', 'preview', 'PORT=8900']
         print("Running: " + " ".join(cmd))
         catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
     else:
@@ -120,16 +120,18 @@ def catch_keyboard_interrupt(target, cmd, cwd):
         p = subprocess.Popen(cmd, cwd=cwd)
         # subprocess.run(cmd, cwd=cwd)
         if target == "website":
-            webbrowser.open("http://localhost:8000")
+            webbrowser.open("http://localhost:8900")
         print("\nTo close the server press Ctrl-C\n")
         #Wait for User to use Ctrl-C
         while p:
             pass
     except KeyboardInterrupt:
         if target == 'notebooks':
-            subprocess.run(['jupyter', 'notebook', 'stop', '8888'])   #Stop Notebook Server
+            subprocess.run(['jupyter', 'notebook', 'stop', '8900'])   #Stop Notebook Server
             p.kill()                                                  #Kill make process
-        print("\nClosing {} server ...".format(target))
+            print("\nClosing notebook server on port 8900")
+        else:
+            print("\nClosing website server process ...")
 
 def make_file_actions(arg_dict: Dict):
     """
