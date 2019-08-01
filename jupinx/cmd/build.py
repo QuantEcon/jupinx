@@ -44,7 +44,7 @@ def get_parser() -> argparse.ArgumentParser:
         "Further documentation is available: https://quantecon.github.io/jupinx/.\n"
     )
     parser = argparse.ArgumentParser(
-        usage='%(prog)s [OPTIONS] <PROJECT-DIRECTORY>',
+        usage='%(prog)s [OPTIONS] <DIRECTORY> [ADDITIONAL OPTIONS]',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=description,
         epilog=epilog,
@@ -59,9 +59,11 @@ def get_parser() -> argparse.ArgumentParser:
                         help="compile a website through Jupyter notebooks (result: _build/website/")
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
-    group = parser.add_argument_group(__('additional arguments'))
+    group = parser.add_argument_group(__('additional options'))
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
                         help='Specify the number of workers for parallel execution. [Default --parallel 2]')
+    group.add_argument('-v', '--view', dest='view', nargs='?', type=str, const='notebooks', action='store',
+                        help="Once build is complete open a server to view results. [Default --view='notebooks']")
     return parser
 
 def check_directory_makefile(arg_dict):
@@ -93,6 +95,24 @@ def handle_make_parallel(cmd, arg_dict):
         else:
             subprocess.run(['make', cmd], cwd=arg_dict['directory'])
 
+def handle_make_preview(arg_dict):
+    """
+    Handle preview targeting from options specified through CLI
+    TODO: Support individual lecture targeting
+    """
+    print(arg_dict['view'])
+    target = str(arg_dict['view']).lower()
+    if target == "website":
+        cmd = ['make', 'preview', 'target=website']
+        print("Running: " + " ".join(cmd))
+        subprocess.run(cmd, cwd=arg_dict['directory'])
+    elif target == "notebooks":
+        cmd = ['make', 'preview']
+        print("Running: " + " ".join(cmd))
+        subprocess.run(cmd, cwd=arg_dict['directory'])
+    else:
+        logging.error("--view={} must be notebooks or website".format(target))
+
 def make_file_actions(arg_dict: Dict):
     """
     Current Approach is to trigger calls to the Makefile contained in the project
@@ -111,6 +131,9 @@ def make_file_actions(arg_dict: Dict):
 
     if 'jupyter' in arg_dict:
         handle_make_parallel('jupyter', arg_dict)
+
+    if 'view' in arg_dict:
+        handle_make_preview(arg_dict)
 
 def deleteDefaultValues(d):
     valid = False
