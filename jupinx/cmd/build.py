@@ -18,6 +18,7 @@ import sphinx.locale
 from sphinx.locale import __
 from jupinx import __display_version__, package_dir
 import logging
+import webbrowser
 
 ADDITIONAL_OPTIONS = [
     'directory',
@@ -105,13 +106,30 @@ def handle_make_preview(arg_dict):
     if target == "website":
         cmd = ['make', 'preview', 'target=website']
         print("Running: " + " ".join(cmd))
-        subprocess.run(cmd, cwd=arg_dict['directory'])
+        catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
     elif target == "notebooks":
         cmd = ['make', 'preview']
         print("Running: " + " ".join(cmd))
-        subprocess.run(cmd, cwd=arg_dict['directory'])
+        catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
     else:
         logging.error("--view={} must be notebooks or website".format(target))
+
+def catch_keyboard_interrupt(target, cmd, cwd):
+    """ Run subprocess.run call to catch Keyboard Interrupts """
+    try:
+        p = subprocess.Popen(cmd, cwd=cwd)
+        # subprocess.run(cmd, cwd=cwd)
+        if target == "website":
+            webbrowser.open("http://localhost:8000")
+        print("\nTo close the server press Ctrl-C\n")
+        #Wait for User to use Ctrl-C
+        while p:
+            pass
+    except KeyboardInterrupt:
+        if target == 'notebooks':
+            subprocess.run(['jupyter', 'notebook', 'stop', '8888'])   #Stop Notebook Server
+            p.kill()                                                  #Kill make process
+        print("\nClosing {} server ...".format(target))
 
 def make_file_actions(arg_dict: Dict):
     """
@@ -151,7 +169,6 @@ def deleteDefaultValues(d):
         valid = True
 
     return [d, valid]
-
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
     sphinx.locale.setlocale(locale.LC_ALL, '')
