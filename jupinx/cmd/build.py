@@ -51,10 +51,12 @@ def get_parser() -> argparse.ArgumentParser:
         )
     parser.add_argument('directory', nargs='?', type=str, default='./', action='store', 
                         help="provide path to a project directory (optional)")
-    parser.add_argument('-c', '--coverage', action='store_true', dest='coverage',
-                        help="compile coverage report for project (result: _build/coverage/reports/{filename}.json")
+    parser.add_argument('-c', '--clean', action='store_true', dest='clean',
+                        help="Clean build so sphinx recompiles all source documents")
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help="compile a collection of Jupyter notebooks (result: _build/jupyter)")
+    parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
+                        help="compile execution test report for project (result: _build/coverage/reports/{filename}.json)")
     parser.add_argument('-w', '--website', action='store_true', dest='website',
                         help="compile a website through Jupyter notebooks (result: _build/website/")
     parser.add_argument('--version', action='version', dest='show_version',
@@ -84,14 +86,22 @@ def handle_make_parallel(cmd, arg_dict):
         exit()
     if sys.version_info.major == 2:
         if 'parallel' in arg_dict:
-            subprocess.call(['make', cmd, 'parallel=' + str(arg_dict['parallel'])], cwd=arg_dict['directory'])
+            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
+            print("Running: " + " ".join(cmd))
+            subprocess.call(cmd, cwd=arg_dict['directory'])
         else:
-            subprocess.call(['make', cmd], cwd=arg_dict['directory'])
+            cmd = ['make', cmd]
+            print("Running: " + " ".join(cmd))
+            subprocess.call(cmd, cwd=arg_dict['directory'])
     else:
         if 'parallel' in arg_dict:
-            subprocess.run(['make', cmd, 'parallel=' + str(arg_dict['parallel'])], cwd=arg_dict['directory'])
+            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
+            print("Running: " + " ".join(cmd))
+            subprocess.run(cmd, cwd=arg_dict['directory'])
         else:
-            subprocess.run(['make', cmd], cwd=arg_dict['directory'])
+            cmd = ['make', cmd]
+            print("Running: " + " ".join(cmd))
+            subprocess.run(cmd, cwd=arg_dict['directory'])
 
 def make_file_actions(arg_dict: Dict):
     """
@@ -103,6 +113,16 @@ def make_file_actions(arg_dict: Dict):
         Support sphinx-build directly using Invoke or some other library in the future
         will allow for advanced configuration options to be available through this tool.
     """
+    if 'clean' in arg_dict:
+        if sys.version_info.major == 2:
+            cmd = ['make', 'clean']
+            print("Running: " + " ".join(cmd))
+            subprocess.call(cmd, cwd=arg_dict['directory'])
+        else:
+            cmd = ['make', 'clean']
+            print("Running: " + " ".join(cmd))
+            subprocess.run(cmd, cwd=arg_dict['directory'])
+
     if 'coverage' in arg_dict:
         handle_make_parallel('coverage', arg_dict)
 
@@ -111,6 +131,8 @@ def make_file_actions(arg_dict: Dict):
 
     if 'jupyter' in arg_dict:
         handle_make_parallel('jupyter', arg_dict)
+
+
 
 def deleteDefaultValues(d):
     valid = False
