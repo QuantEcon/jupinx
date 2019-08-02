@@ -45,20 +45,25 @@ and follow the on-screen questions.
 To build a collection of notebooks using `Jupinx`:
 
 ```
-jupinx --notebooks --directory <PATH>
+jupinx --notebooks <PROJECT-DIRECTORY>
 ```
 
 You can also use short versions such as:
 
 ```
-jupinx -n -d <PATH>
+jupinx -n <PROJECT-DIRECTORY>
 ```
 
-If you are at the root level of your project directory you can trigger a build 
-without specifying the directory location:
+As a convenience, if you are at the root level of your project directory you can trigger a build without specifying the directory location:
 
 ```
 jupinx --notebooks
+```
+
+or simply
+
+```
+jupinx -n
 ```
 
 You can also see the options available using:
