@@ -12,6 +12,7 @@ import subprocess
 import sys
 import copy
 from typing import Dict, List
+import textwrap
 
 import locale
 import sphinx.locale
@@ -45,18 +46,31 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] <PROJECT-DIRECTORY>',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=argparse.RawTextHelpFormatter,
         description=description,
         epilog=epilog,
         )
     parser.add_argument('directory', nargs='?', type=str, default='./', action='store', 
-                        help="provide path to a project directory (optional)")
+                        help=textwrap.dedent("""
+                            provide path to a project directory
+                            [Optional: './' will be assumed if not specified]
+                            """)
+                        )
     parser.add_argument('-c', '--coverage', action='store_true', dest='coverage',
-                        help="compile coverage report for project (result: _build/coverage/reports/{filename}.json")
+                        help=textwrap.dedent("""
+                            compile coverage report for project
+                            [Result: <project-directory>/_build/coverage/reports/{filename}.json]
+                            """)
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
-                        help="compile a collection of Jupyter notebooks (result: _build/jupyter)")
+                        help=textwrap.dedent("""
+                            compile a collection of Jupyter notebooks
+                            [Result: _build/jupyter]
+                             """)
     parser.add_argument('-w', '--website', action='store_true', dest='website',
-                        help="compile a website through Jupyter notebooks (result: _build/website/")
+                        help=textwrap.dedent("""
+                            compile a website through Jupyter notebooks
+                            [Result: _build/website/]
+                            """)
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     group = parser.add_argument_group(__('additional arguments'))
