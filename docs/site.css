@@ -36,8 +36,8 @@ img {
 .button {
   display: block;
   background-color: #d8655e;
-  font-size: 1rem;
-  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
   color: #fff;
   border-radius: .25rem;
   border: 1px solid rgba(0,0,0,.2);
@@ -56,17 +56,18 @@ img {
   padding:4rem 4rem;
 }
 
+.header {
+  text-align: center;
+}
+
 .header .wrapper {
-  display: flex;
 }
 
 .header-branding {
-  width:60%;
+  
 }
 
 .header-logo {
-  position: relative;
-  left:-10px;
 }
 
 .header-tagline {
@@ -75,23 +76,20 @@ img {
 }
 
 .header-links {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  width:40%;
-
+  margin: 2rem 0 0 0;
 }
 
 .header-links ul {
   margin:0;
   padding:0;
-  display: flex;
-  justify-content: space-between;
   list-style: none;
+  text-align: center;
 }
 
 .header-links ul li {
-  margin:0 0 1rem 1rem;
+  margin:0 1rem 1rem 0;
+  display: inline-block;
+  min-width: 150px;
 }
 
 .section h2 {
@@ -103,7 +101,7 @@ img {
 
 @media (max-width: 1023px) {
   .wrapper {
-    padding: 2rem 1rem;
+    padding: 2rem 2rem;
   }
   .header .wrapper {
     display: block;

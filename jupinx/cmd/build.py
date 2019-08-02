@@ -19,6 +19,7 @@ import sphinx.locale
 from sphinx.locale import __
 from jupinx import __display_version__, package_dir
 import logging
+import webbrowser
 
 ADDITIONAL_OPTIONS = [
     'directory',
@@ -45,7 +46,7 @@ def get_parser() -> argparse.ArgumentParser:
         "Further documentation is available: https://quantecon.github.io/jupinx/.\n"
     )
     parser = argparse.ArgumentParser(
-        usage='%(prog)s [OPTIONS] <PROJECT-DIRECTORY>',
+        usage='%(prog)s [OPTIONS] <DIRECTORY> [ADDITIONAL OPTIONS]',
         formatter_class=argparse.RawTextHelpFormatter,
         description=description,
         epilog=epilog,
@@ -73,9 +74,11 @@ def get_parser() -> argparse.ArgumentParser:
                             """)
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
-    group = parser.add_argument_group(__('additional arguments'))
+    group = parser.add_argument_group(__('additional options'))
     group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
                         help='Specify the number of workers for parallel execution. [Default --parallel 2]')
+    group.add_argument('-v', '--view', dest='view', nargs='?', type=str, const='notebooks', action='store',
+                        help="Once build is complete open a server to view results. [Default --view='notebooks']")
     return parser
 
 def check_directory_makefile(arg_dict):
@@ -98,14 +101,59 @@ def handle_make_parallel(cmd, arg_dict):
         exit()
     if sys.version_info.major == 2:
         if 'parallel' in arg_dict:
-            subprocess.call(['make', cmd, 'parallel=' + str(arg_dict['parallel'])], cwd=arg_dict['directory'])
+            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
+            print("Running: " + " ".join(cmd))
+            subprocess.call(cmd, cwd=arg_dict['directory'])
         else:
-            subprocess.call(['make', cmd], cwd=arg_dict['directory'])
+            cmd = ['make', cmd]
+            print("Running: " + " ".join(cmd))
+            subprocess.call(cmd, cwd=arg_dict['directory'])
     else:
         if 'parallel' in arg_dict:
-            subprocess.run(['make', cmd, 'parallel=' + str(arg_dict['parallel'])], cwd=arg_dict['directory'])
+            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
+            print("Running: " + " ".join(cmd))
+            subprocess.run(cmd, cwd=arg_dict['directory'])
         else:
-            subprocess.run(['make', cmd], cwd=arg_dict['directory'])
+            cmd = ['make', cmd]
+            print("Running: " + " ".join(cmd))
+            subprocess.run(cmd, cwd=arg_dict['directory'])
+
+def handle_make_preview(arg_dict):
+    """
+    Handle preview targeting from options specified through CLI
+    TODO: Support individual lecture targeting
+    """
+    print(arg_dict['view'])
+    target = str(arg_dict['view']).lower()
+    if target == "website":
+        cmd = ['make', 'preview', 'target=website', 'PORT=8900']
+        print("Running: " + " ".join(cmd))
+        catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
+    elif target == "notebooks":
+        cmd = ['make', 'preview', 'PORT=8900']
+        print("Running: " + " ".join(cmd))
+        catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
+    else:
+        logging.error("--view={} must be notebooks or website".format(target))
+
+def catch_keyboard_interrupt(target, cmd, cwd):
+    """ Run subprocess.run call to catch Keyboard Interrupts """
+    try:
+        p = subprocess.Popen(cmd, cwd=cwd)
+        # subprocess.run(cmd, cwd=cwd)
+        if target == "website":
+            webbrowser.open("http://localhost:8900")
+        print("\nTo close the server press Ctrl-C\n")
+        #Wait for User to use Ctrl-C
+        while p:
+            pass
+    except KeyboardInterrupt:
+        if target == 'notebooks':
+            subprocess.run(['jupyter', 'notebook', 'stop', '8900'])   #Stop Notebook Server
+            p.kill()                                                  #Kill make process
+            print("\nClosing notebook server on port 8900")
+        else:
+            print("\nClosing website server process ...")
 
 def make_file_actions(arg_dict: Dict):
     """
@@ -117,6 +165,16 @@ def make_file_actions(arg_dict: Dict):
         Support sphinx-build directly using Invoke or some other library in the future
         will allow for advanced configuration options to be available through this tool.
     """
+    if 'clean' in arg_dict:
+        if sys.version_info.major == 2:
+            cmd = ['make', 'clean']
+            print("Running: " + " ".join(cmd))
+            subprocess.call(cmd, cwd=arg_dict['directory'])
+        else:
+            cmd = ['make', 'clean']
+            print("Running: " + " ".join(cmd))
+            subprocess.run(cmd, cwd=arg_dict['directory'])
+
     if 'coverage' in arg_dict:
         handle_make_parallel('coverage', arg_dict)
 
@@ -125,6 +183,10 @@ def make_file_actions(arg_dict: Dict):
 
     if 'jupyter' in arg_dict:
         handle_make_parallel('jupyter', arg_dict)
+
+    if 'view' in arg_dict:
+        handle_make_preview(arg_dict)
+
 
 def deleteDefaultValues(d):
     valid = False
@@ -142,7 +204,6 @@ def deleteDefaultValues(d):
         valid = True
 
     return [d, valid]
-
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
     sphinx.locale.setlocale(locale.LC_ALL, '')
