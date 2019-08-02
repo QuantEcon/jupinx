@@ -10,6 +10,7 @@ BUILDDIR      = {{ rbuilddir }}
 BUILDWEBSITE  = {{ rbuilddir }}/website
 BUILDCOVERAGE = {{ rbuilddir }}/coverage
 BUILDPDF      = {{ rbuilddir }}/pdf
+PORT          = 8888
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -17,6 +18,16 @@ help:
 
 .PHONY: help Makefile
 
+preview:
+ifneq (,$(filter $(target),website Website))
+	cd $(BUILDWEBSITE)/jupyter_html && python -m http.server $(PORT)
+else
+ifdef lecture
+	cd $(BUILDDIR)/jupyter/ && jupyter notebook --port $(PORT) --port-retries=0 $(basename $(lecture)).ipynb
+else
+	cd $(BUILDDIR)/jupyter/ && jupyter notebook --port $(PORT) --port-retries=0
+endif
+endif
 
 coverage:
 ifneq ($(strip $(parallel)),)
