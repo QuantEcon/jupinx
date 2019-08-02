@@ -12,13 +12,12 @@ This package contains the Jupinx extension.
 .. add description here ..
 '''
 
-requires = ['Sphinx>=1.8.5']
-
 install_requires = [
     'docutils', 
     'nbformat', 
-    'sphinx', 
+    'sphinx>=1.8.5', 
     'dask', 
+    'dask[distributed]'
     'ipython', 
     'nbconvert', 
     'jupyter_client'
