@@ -37,7 +37,7 @@ img {
   display: block;
   background-color: #d8655e;
   font-size: 0.9rem;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
   color: #fff;
   border-radius: .25rem;
   border: 1px solid rgba(0,0,0,.2);
@@ -53,7 +53,7 @@ img {
 .wrapper {
   max-width:960px;
   margin:0 auto;
-  padding:4rem 4rem;
+  padding:2rem 4rem;
 }
 
 .header {
@@ -61,18 +61,36 @@ img {
 }
 
 .header .wrapper {
+  padding:1rem 4rem;
+}
+
+.home .header .wrapper {
+  padding: 2rem 4rem;
 }
 
 .header-branding {
   
 }
 
-.header-logo {
+.header-logo img {
+  max-width: 350px;
+}
+
+.home .header-logo img {
+  max-width: none;
 }
 
 .header-tagline {
   font-size: 1.4rem;
   color: #7a7a7a;
+}
+
+.header-description {
+  display: none;
+}
+
+.home .header-description {
+  display: block;
 }
 
 .header-links {
@@ -87,9 +105,22 @@ img {
 }
 
 .header-links ul li {
-  margin:0 1rem 1rem 0;
+  margin:0 0.5rem 1rem 0.5rem;
   display: inline-block;
   min-width: 150px;
+}
+
+.header-links ul li.active a {
+  color:#fff;
+  background-color: #a04a45;
+  cursor: default;
+}
+
+.section h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 1rem 0 4rem 0;
+  color: #d8655e;
 }
 
 .section h2 {

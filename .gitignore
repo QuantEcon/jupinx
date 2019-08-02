@@ -6,6 +6,7 @@ dist/
 
 docs/sphinx/_build/
 docs/_site
+docs/Gemfile.lock
 
 jupinx/cmd/__pycache__/
 jupinx/util/__pycache__/
