@@ -17,10 +17,11 @@ install_requires = [
     'nbformat', 
     'sphinx>=1.8.5', 
     'dask', 
-    'dask[distributed]'
+    'dask[distributed]',
     'ipython', 
     'nbconvert', 
-    'jupyter_client'
+    'jupyter_client',
+    'pyzmq>=17.1.3'
 ]
 
 setup(
