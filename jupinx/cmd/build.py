@@ -57,11 +57,10 @@ def get_parser() -> argparse.ArgumentParser:
                             [Optional: './' will be assumed if not specified]
                             """.lstrip("\n"))
     )
-    parser.add_argument('-c', '--coverage', action='store_true', dest='coverage',
+    parser.add_argument('-c', '--clean', action='store_true', dest='clean',
                         help=textwrap.dedent("""
-                            compile coverage report for project
-                            [Result: <project-directory>/_build/coverage/reports/{filename}.json]
-                            """.lstrip("\n"))
+                        clean build so sphinx recompiles all source documents
+                        """.lstrip("\n"))
     )
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
@@ -69,10 +68,25 @@ def get_parser() -> argparse.ArgumentParser:
                             [Result: _build/jupyter]
                              """.lstrip("\n"))
     )
+    parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
+                        help=textwrap.dedent("""
+                            compile coverage report for project
+                            [Result: <project-directory>/_build/coverage/reports/{filename}.json]
+                            """.lstrip("\n"))
+    )
     parser.add_argument('-w', '--website', action='store_true', dest='website',
                         help=textwrap.dedent("""
                             compile a website through Jupyter notebooks
                             [Result: _build/website/]
+                            """.lstrip("\n"))
+    )
+    parserj.add_argument('-v', '--view', dest='view', nargs='?', type=str, const='notebooks', action='store',
+                        help=textwrap.dedent("""
+                            Open a server to view results for
+                            1. notebooks
+                            2. website
+                            [Default: --view will result in --view=notebooks]
+                            Example: jupinx -w lecture-source --view=website
                             """.lstrip("\n"))
     )
     parser.add_argument('--version', action='version', dest='show_version',
@@ -82,15 +96,6 @@ def get_parser() -> argparse.ArgumentParser:
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
                             [Default: --parallel will result in --parallel=2 if no value is specified]
-                            """.lstrip("\n"))
-    )
-    group.add_argument('-v', '--view', dest='view', nargs='?', type=str, const='notebooks', action='store',
-                        help=textwrap.dedent("""
-                            Once build is complete open a server to view results for
-                            1. notebooks
-                            2. website
-                            [Default: --view will result in --view=notebooks]
-                            Example: jupinx -w lecture-source --view=website
                             """.lstrip("\n"))
     )
     return parser
