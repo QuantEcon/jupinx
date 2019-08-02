@@ -142,7 +142,6 @@ def handle_make_preview(arg_dict):
     Handle preview targeting from options specified through CLI
     TODO: Support individual lecture targeting
     """
-    print(arg_dict)
     if check_directory_makefile(arg_dict) is False:
         exit()
     target = str(arg_dict['view']).lower()
