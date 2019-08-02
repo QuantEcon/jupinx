@@ -19,6 +19,7 @@ from sphinx.locale import __
 from jupinx import __display_version__, package_dir
 import logging
 import webbrowser
+import textwrap
 
 ADDITIONAL_OPTIONS = [
     'directory',
@@ -79,7 +80,7 @@ def get_parser() -> argparse.ArgumentParser:
                             [Result: _build/website/]
                             """.lstrip("\n"))
     )
-    parserj.add_argument('-v', '--view', dest='view', nargs='?', type=str, const='notebooks', action='store',
+    parser.add_argument('-v', '--view', dest='view', nargs='?', type=str, const='notebooks', action='store',
                         help=textwrap.dedent("""
                             Open a server to view results for
                             1. notebooks
