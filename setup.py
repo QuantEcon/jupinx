@@ -4,7 +4,7 @@ import jupinx
 
 from setuptools import setup, find_packages
 
-VERSION = 'v0.0.1'
+VERSION = 'v0.1.1'
 
 long_desc = '''
 This package contains the Jupinx extension.
