@@ -11,7 +11,7 @@ import warnings
 from os import path
 from subprocess import PIPE
 
-__version__ = '0.0.1'
+__version__ = '0.1.2'
 
 package_dir = path.abspath(path.dirname(__file__))
 
