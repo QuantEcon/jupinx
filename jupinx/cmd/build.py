@@ -47,7 +47,7 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] <DIRECTORY> [ADDITIONAL OPTIONS]',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=argparse.RawTextHelpFormatter,
         description=description,
         epilog=epilog,
         )
@@ -80,15 +80,6 @@ def get_parser() -> argparse.ArgumentParser:
                             [Result: _build/website/]
                             """.lstrip("\n"))
     )
-    parser.add_argument('-v', '--view', dest='view', nargs='?', type=str, const='notebooks', action='store',
-                        help=textwrap.dedent("""
-                            Open a server to view results for
-                            1. notebooks
-                            2. website
-                            [Default: --view will result in --view=notebooks]
-                            Example: jupinx -w lecture-source --view=website
-                            """.lstrip("\n"))
-    )
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     group = parser.add_argument_group(__('additional options'))
@@ -97,6 +88,15 @@ def get_parser() -> argparse.ArgumentParser:
                             Specify the number of workers for parallel execution 
                             [Default: --parallel will result in --parallel=2 if no value is specified]
                             """.lstrip("\n"))
+    )
+    group.add_argument('-v', '--view', dest='view', nargs='?', type=str, choices=['notebooks','website'], const='notebooks', action='store',
+                    help=textwrap.dedent("""
+                        Open a server to view results for
+                        1. notebooks
+                        2. website
+                        [Default: --view will result in --view=notebooks]
+                        Example: jupinx -w lecture-source --view=website
+                        """.lstrip("\n"))
     )
     return parser
 
