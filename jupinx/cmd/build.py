@@ -12,7 +12,6 @@ import subprocess
 import sys
 import copy
 from typing import Dict, List
-import textwrap
 
 import locale
 import sphinx.locale
@@ -47,7 +46,7 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] <DIRECTORY> [ADDITIONAL OPTIONS]',
-        formatter_class=argparse.RawTextHelpFormatter,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
         description=description,
         epilog=epilog,
         )
