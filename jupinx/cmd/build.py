@@ -110,6 +110,20 @@ def check_directory_makefile(arg_dict):
        logging.error("Makefile not found in the directory")
        return False
 
+def check_view_result_directory(target, arg_dict):
+    if target == "notebooks":
+        dir = arg_dict['directory'] + "_build/jupyter/"
+    elif target == "website":
+        dir = arg_dict['directory'] + "_build/website/jupyter_html/"
+    else:
+        logging.error("target must be directory or website for the -v, --view option")
+    if os.path.exists(dir) is False:
+        if target == "notebooks":
+            logging.error("Results directory: {} does not exist!\nPlease run jupinx -n to build notebooks".format(dir))
+        elif target == "website":
+            logging.error("Results directory: {} does not exist.\n Please run jupinx -w to build website".format(dir))
+        return False
+
 def handle_make_parallel(cmd, arg_dict):
     if check_directory_makefile(arg_dict) is False:
         exit()
@@ -140,6 +154,8 @@ def handle_make_preview(arg_dict):
     if check_directory_makefile(arg_dict) is False:
         exit()
     target = str(arg_dict['view']).lower()
+    if check_view_result_directory(target, arg_dict) is False:
+        exit()
     if target == "website":
         cmd = ['make', 'preview', 'target=website', 'PORT=8900']
         print("Running: " + " ".join(cmd))
