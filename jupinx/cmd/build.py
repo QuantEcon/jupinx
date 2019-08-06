@@ -62,12 +62,20 @@ def get_parser() -> argparse.ArgumentParser:
                         clean build so sphinx recompiles all source documents
                         """.lstrip("\n"))
     )
+    parser.add_argument('-j', '--jupyterhub', action='store_true', dest='jupyterhub',
+                        help=text.wrap.dedend("""
+                        open jupyter server when build completes to view notebooks
+                        """.lstring("\n")))
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
                             compile a collection of Jupyter notebooks
                             [Result: _build/jupyter]
                              """.lstrip("\n"))
     )
+    parser.add_argument('-s', '--server', action='store_true', dest='html-server',
+                        help=text.wrap.dedend("""
+                        open html server when build completes to view website
+                        """.lstrip("\n")))
     parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
                         help=textwrap.dedent("""
                             compile coverage report for project
@@ -83,20 +91,11 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     group = parser.add_argument_group(__('additional options'))
-    group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
+    group.add_argument('-p', '--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
                             [Default: --parallel will result in --parallel=2 if no value is specified]
                             """.lstrip("\n"))
-    )
-    group.add_argument('-v', '--view', dest='view', nargs='?', type=str, choices=['notebooks','website'], const='notebooks', action='store',
-                    help=textwrap.dedent("""
-                        Open a server to view results for
-                        1. notebooks
-                        2. website
-                        [Default: --view will result in --view=notebooks]
-                        Example: jupinx -w lecture-source --view=website
-                        """.lstrip("\n"))
     )
     return parser
 
@@ -151,26 +150,25 @@ def handle_make_parallel(cmd, arg_dict):
             print("Running: " + " ".join(cmd))
             subprocess.run(cmd, cwd=arg_dict['directory'])
 
-def handle_make_preview(arg_dict):
-    """
-    Handle preview targeting from options specified through CLI
-    TODO: Support individual lecture targeting
-    """
+def handle_make_jupyterhub(arg_dict):
+    """ Launch Jupyterhub Server """
     if check_directory_makefile(arg_dict) is False:
         exit()
-    target = str(arg_dict['view']).lower()
-    if check_view_result_directory(target, arg_dict) is False:
+    if check_view_result_directory("notebooks", arg_dict) is False:
         exit()
-    if target == "website":
-        cmd = ['make', 'preview', 'target=website', 'PORT=8900']
-        print("Running: " + " ".join(cmd))
-        catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
-    elif target == "notebooks":
-        cmd = ['make', 'preview', 'PORT=8900']
-        print("Running: " + " ".join(cmd))
-        catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
-    else:
-        logging.error("--view={} must be notebooks or website".format(target))
+    cmd = ['make', 'preview', 'PORT=8900']
+    print("Running: " + " ".join(cmd))
+    catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
+
+def handle_make_htmlserver(arg_dict):
+    """ Launch HTML Sever """
+    if check_directory_makefile(arg_dict) is False:
+        exit()
+    if check_view_result_directory("website", arg_dict) is False:
+        exit()
+    cmd = ['make', 'preview', 'target=website', 'PORT=8900']
+    print("Running: " + " ".join(cmd))
+    catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
 
 def catch_keyboard_interrupt(target, cmd, cwd):
     """ Run subprocess.run call to catch Keyboard Interrupts """
@@ -220,8 +218,11 @@ def make_file_actions(arg_dict: Dict):
     if 'jupyter' in arg_dict:
         handle_make_parallel('jupyter', arg_dict)
 
-    if 'view' in arg_dict:
-        handle_make_preview(arg_dict)
+    if 'jupyterhub' in arg_dict:
+        handle_make_jupyterhub(arg_dict)
+    
+    if 'html-server' in arg_dict:
+        handle_make_htmlserver(argdict)
 
 
 def deleteDefaultValues(d):
