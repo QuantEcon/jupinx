@@ -63,7 +63,7 @@ completely built (including all code and generated components).
 
 .. note::
 
-    There is currently no default template provided for constructing websites.
+    There is currently **no** default template provided for constructing websites.
     This needs to be provided in the future to allow building websites out of
     the box with a default theme.
 
@@ -95,28 +95,24 @@ The typical usage for ``jupinx`` is:
 
 .. code-block:: bash
 
-    jupinx [BUILDOPTIONS] <PATH-PROJECT-DIRECTORY> [OPTIONS]
+    jupinx [OPTIONS] <DIRECTORY> [ADDITIONAL OPTIONS]
 
-The following **build** options are provided:
+The following **options** are provided:
 
--n, --notebooks     compile a set of Jupyter notebooks
-                    [_build/jupyter]
--w, --website       compile notebooks and convert to HTML
-                    [_build/website]
--c, --coverage      compile notebooks and run coverage tests
-                    [_build/coverage]
+-h, --help            show this help message and exit
+-c, --clean           clean build so sphinx recompiles all source documents
+-j, --jupyterhub      open jupyter server when build completes to view notebooks
+-n, --notebooks       compile a collection of Jupyter notebooks
+                    [Result: _build/jupyter]
+-s, --server          open html server when build completes to view website
+-t, --coverage-tests  compile coverage report for project
+                    [Result: <project-directory>/_build/coverage/reports/{filename}.json]
+-w, --website         compile a website through Jupyter notebooks
+                    [Result: _build/website/]
+--version             show program's version number and exit
 
+The following **additional options** are provided:
 
-Additional options include:
-
--p, --parallel          request notebook execution and conversion 
-                        to be processed in parallel. An integer 
-                        may be specified to assign the number of 
-                        dask workers. [**Default:** 2] 
-                        *Example:* jupinx -w -p=4
-
-.. todo::
-
-    implement -v, --view for automatically loading jupyter notebook or 
-    web server for viewing generated outputs on your local machine.
-    See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)
+  -p [PARALLEL], --parallel [PARALLEL]
+                        Specify the number of workers for parallel execution 
+                        [Default: --parallel will result in --parallel=2 if no value is specified]

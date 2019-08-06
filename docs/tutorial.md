@@ -150,14 +150,19 @@ jupinx --notebooks
 
 will generate notebooks from the `rst` files and place them in `_build/jupyter/`
 
-You can open a jupyter server in this directory to see the results
+You can view the results by launching a Jupyter notebook server using:
 
 ```bash
-cd _build/jupyter
-jupyter notebook
+jupinx --jupyterhub
 ```
 
-> **_NOTE:_**  In future this should be added to `jupinx`. See [Issue #21](https://github.com/QuantEcon/jupinx/issues/21)
+It is also possible to specify these options together (using short notation):
+
+```bash
+jupinx -nj
+```
+
+which will build the notebooks and then launch the Jupyter notebook server
 
 
 Step 5: Advanced Configuration of `sphinxcontrib-jupyter`
@@ -173,12 +178,11 @@ options. You can add:
 jupyter_execute_notebooks = True
 ```
 
-this will now build notebooks and then excecute them for you with results stored in 
+this will now build notebooks and then execute them for you with results stored in 
 `_build/jupyter/executed`. You can test this by:
 
 ```bash
-make clean    #Clear Sphinx Cache to Rebuild Files from Scratch
-make jupyter
+jupinx --clean --notebooks
 ```
 
 > **_NOTE:_** The [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html) has a section on Managing Large Projects that may require different compilation pipelines for editing and publishing. 

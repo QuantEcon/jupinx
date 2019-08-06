@@ -4,13 +4,10 @@ import jupinx
 
 from setuptools import setup, find_packages
 
-VERSION = 'v0.1.2'
-
 long_desc = '''
-This package contains the Jupinx extension.
-
-.. add description here ..
+This package contains the Jupinx cmd and quickstart utilities.
 '''
+VERSION = jupinx.__version__
 
 install_requires = [
     'docutils', 
@@ -26,7 +23,7 @@ install_requires = [
 
 setup(
     name='Jupinx',
-    version=jupinx.__version__,
+    version=VERSION,
     url='https://github.com/QuantEcon/jupinx',
     download_url='https://github.com/QuantEcon/jupinx/archive/{}.tar.gz'.format(VERSION),
     license='BSD',
