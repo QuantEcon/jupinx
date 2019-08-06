@@ -153,43 +153,45 @@ def handle_make_parallel(cmd, arg_dict):
             subprocess.run(cmd, cwd=arg_dict['directory'])
 
 def handle_make_jupyterhub(arg_dict):
-    """ Launch Jupyterhub Server """
+    """ Launch Jupyterhub Server (PORT = 8900) """
+    PORT = 8900
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("notebooks", arg_dict) is False:
         exit()
-    cmd = ['make', 'preview', 'PORT=8900']
+    cmd = ['make', 'preview', 'PORT={}'.format(PORT)]
     print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt("notebooks", cmd, arg_dict['directory'])
+    catch_keyboard_interrupt("notebooks", cmd, arg_dict['directory'], PORT)
 
 def handle_make_htmlserver(arg_dict):
-    """ Launch HTML Sever """
+    """ Launch HTML Sever (PORT = 8901) """
+    PORT = 8901
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("website", arg_dict) is False:
         exit()
-    cmd = ['make', 'preview', 'target=website', 'PORT=8900']
+    cmd = ['make', 'preview', 'target=website', 'PORT={}'.format(PORT)]
     print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt("website", cmd, arg_dict['directory'])
+    catch_keyboard_interrupt("website", cmd, arg_dict['directory'], PORT)
 
-def catch_keyboard_interrupt(target, cmd, cwd):
+def catch_keyboard_interrupt(target, cmd, cwd, port):
     """ Run subprocess.run call to catch Keyboard Interrupts """
     try:
         p = subprocess.Popen(cmd, cwd=cwd)
         # subprocess.run(cmd, cwd=cwd)
         if target == "website":
-            webbrowser.open("http://localhost:8900")
+            webbrowser.open("http://localhost:{}".format(port))
         print("\nTo close the server press Ctrl-C\n")
         #Wait for User to use Ctrl-C
         while p:
             pass
     except KeyboardInterrupt:
         if target == 'notebooks':
-            subprocess.run(['jupyter', 'notebook', 'stop', '8900'])   #Stop Notebook Server
-            p.kill()                                                  #Kill make process
-            print("\nClosing notebook server on port 8900")
+            subprocess.run(['jupyter', 'notebook', 'stop', '{}'.format(port)])   #Stop Notebook Server
+            p.kill()                                                  #Kill process
+            print("\nClosing notebook server on port {}".format(port))
         else:
-            print("\nClosing website server process ...")
+            print("\nClosing website server process on port {}".format(port))
 
 def make_file_actions(arg_dict: Dict):
     """
