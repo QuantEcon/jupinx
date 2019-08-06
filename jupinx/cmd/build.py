@@ -23,7 +23,8 @@ import textwrap
 
 ADDITIONAL_OPTIONS = [
     'directory',
-    'parallel'
+    'parallel',
+    'files'
 ]
 
 logging.basicConfig(format='%(levelname)s: %(message)s')
@@ -80,6 +81,7 @@ def get_parser() -> argparse.ArgumentParser:
                             [Result: _build/website/]
                             """.lstrip("\n"))
     )
+    parser.add_argument('-f', '--files',nargs="*", dest='files')
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     group = parser.add_argument_group(__('additional options'))
@@ -132,24 +134,16 @@ def check_view_result_directory(target, arg_dict):
 def handle_make_parallel(cmd, arg_dict):
     if check_directory_makefile(arg_dict) is False:
         exit()
-    if sys.version_info.major == 2:
-        if 'parallel' in arg_dict:
-            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
-            print("Running: " + " ".join(cmd))
-            subprocess.call(cmd, cwd=arg_dict['directory'])
-        else:
-            cmd = ['make', cmd]
-            print("Running: " + " ".join(cmd))
-            subprocess.call(cmd, cwd=arg_dict['directory'])
+    if 'parallel' in arg_dict:
+        cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
+        print("Running: " + " ".join(cmd))
     else:
-        if 'parallel' in arg_dict:
-            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
-            print("Running: " + " ".join(cmd))
-            subprocess.run(cmd, cwd=arg_dict['directory'])
-        else:
-            cmd = ['make', cmd]
-            print("Running: " + " ".join(cmd))
-            subprocess.run(cmd, cwd=arg_dict['directory'])
+        cmd = ['make', cmd]
+        print("Running: " + " ".join(cmd))
+
+    if 'files' in arg_dict:
+        cmd = cmd + ['FILES='+ ' '.join(arg_dict['files'])]
+    subprocess.run(cmd, cwd=arg_dict['directory'])
 
 def handle_make_preview(arg_dict):
     """
@@ -253,7 +247,6 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
         return err.code
    
     d = vars(args)
-
 
     [d, valid] = deleteDefaultValues(d)
 
