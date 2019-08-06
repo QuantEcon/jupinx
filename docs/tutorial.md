@@ -35,6 +35,9 @@ cd jupinx-project
 jupinx-quickstart
 ```
 
+> **_NOTE:_**  You may also specify a target folder during the quickstart process, as long as that folder already exists.
+
+
 The `quickstart-utility` will take you through a series of questions to assist with 
 this configuration:
 
