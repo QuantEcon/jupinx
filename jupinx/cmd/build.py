@@ -63,9 +63,10 @@ def get_parser() -> argparse.ArgumentParser:
                         """.lstrip("\n"))
     )
     parser.add_argument('-j', '--jupyterhub', action='store_true', dest='jupyterhub',
-                        help=text.wrap.dedend("""
+                        help=textwrap.dedent("""
                         open jupyter server when build completes to view notebooks
-                        """.lstring("\n")))
+                        """.lstrip("\n"))
+    )
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
                             compile a collection of Jupyter notebooks
@@ -73,9 +74,10 @@ def get_parser() -> argparse.ArgumentParser:
                              """.lstrip("\n"))
     )
     parser.add_argument('-s', '--server', action='store_true', dest='html-server',
-                        help=text.wrap.dedend("""
+                        help=textwrap.dedent("""
                         open html server when build completes to view website
-                        """.lstrip("\n")))
+                        """.lstrip("\n"))
+    )
     parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
                         help=textwrap.dedent("""
                             compile coverage report for project
@@ -158,7 +160,7 @@ def handle_make_jupyterhub(arg_dict):
         exit()
     cmd = ['make', 'preview', 'PORT=8900']
     print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
+    catch_keyboard_interrupt("notebooks", cmd, arg_dict['directory'])
 
 def handle_make_htmlserver(arg_dict):
     """ Launch HTML Sever """
@@ -168,7 +170,7 @@ def handle_make_htmlserver(arg_dict):
         exit()
     cmd = ['make', 'preview', 'target=website', 'PORT=8900']
     print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt(target, cmd, arg_dict['directory'])
+    catch_keyboard_interrupt("website", cmd, arg_dict['directory'])
 
 def catch_keyboard_interrupt(target, cmd, cwd):
     """ Run subprocess.run call to catch Keyboard Interrupts """
@@ -222,7 +224,7 @@ def make_file_actions(arg_dict: Dict):
         handle_make_jupyterhub(arg_dict)
     
     if 'html-server' in arg_dict:
-        handle_make_htmlserver(argdict)
+        handle_make_htmlserver(arg_dict)
 
 
 def deleteDefaultValues(d):
