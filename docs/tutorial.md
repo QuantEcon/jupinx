@@ -31,7 +31,7 @@ into
 1. a set of Jupyter Notebooks and
 2. a website.
 
-A valid source directory which must contain
+A valid source directory must contain
 
 * some RST files, including one called `index.rst` and
 
@@ -40,7 +40,7 @@ A valid source directory which must contain
 
 ## Creating a Source Directory
 
-One way to set up a valid source directory is the `jupinx-quickstart` executable.
+One way to set up a valid source directory is via the `jupinx-quickstart` executable.
 
 To use it, first create a folder for your project
 
@@ -205,15 +205,6 @@ jupinx --help
 ```
 
 More details can be found in the [documentation](https://jupinx.readthedocs.io/).
-
-
-### Advanced Configuration
-
-In the tasks listed above, much of the heavy lifting is performed by 
-the [sphinxcontrib-jupyter extension](https://github.com/QuantEcon/sphinxcontrib-jupyter).
-
-See the documentation of that project for additional information.
-
 
 
 

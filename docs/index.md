@@ -15,7 +15,7 @@ To install `Jupinx`, open a terminal and type
 pip install jupinx
 ```
 
-to upgrade your current installation to the latest version, use
+To upgrade your current installation to the latest version, use
 
 ```bash
 pip install jupinx --upgrade
