@@ -97,24 +97,19 @@ The typical usage for ``jupinx`` is:
 
     jupinx [OPTIONS] <DIRECTORY> [ADDITIONAL OPTIONS]
 
-The folliwing **positional** arguments are provided:
-
-directory           provide path to a project directory
-                    (Optional: the current working directory (./) is the default)
-
 The following **options** are provided:
 
-  -h, --help            show this help message and exit
-  -c, --clean           clean build directory
-  -j, --jupyternb       open jupyter to view notebooks
-  -n, --notebooks       compile RST files to Jupyter notebooks
-  -s, --server          open html server to view website
-  -t, --coverage-tests  compile coverage report for project
-  -w, --website         compile website 
-  --version             show program's version number and exit
+-h, --help            show this help message and exit
+-c, --clean           clean build directory
+-j, --jupyternb       open jupyter to view notebooks
+-n, --notebooks       compile RST files to Jupyter notebooks
+-s, --server          open html server to view website
+-t, --coverage-tests  compile coverage report for project
+-w, --website         compile website 
+--version             show program's version number and exit
 
 The following **additional options** are provided:
 
-  -p [PARALLEL], --parallel [PARALLEL]
-                        Specify the number of workers for parallel execution 
-                        (Default: --parallel will result in --parallel=2)
+-p [PARALLEL], --parallel [PARALLEL]
+                    Specify the number of workers for parallel execution 
+                    (Default: --parallel will result in --parallel=2)
