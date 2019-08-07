@@ -161,15 +161,28 @@ def handle_make_jupyternb(arg_dict):
     catch_keyboard_interrupt("notebooks", cmd, arg_dict['directory'], PORT)
 
 def handle_make_htmlserver(arg_dict):
-    """ Launch HTML Sever (PORT = 8901) """
+    """ Launch HTML Server (PORT = 8901) """
+    from http.server import HTTPServer, BaseHTTPRequestHandler
+    import threading
+    
+    def start_server(httpd):
+        httpd.serve_forever()
+
     PORT = 8901
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("website", arg_dict) is False:
         exit()
-    cmd = ['make', 'preview', 'target=website', 'PORT={}'.format(PORT)]
-    print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt("website", cmd, arg_dict['directory'], PORT)
+    httpd = HTTPServer(("", PORT), BaseHTTPRequestHandler)
+    print("Serving at http://localhost:{}".format(PORT))
+    x = threading.Thread(target=start_server, args=(httpd,))
+    x.start()
+    webbrowser.open("http://localhost:{}".format(PORT))
+    try:
+        response = input("\nTo close the server please use Ctrl-C\n\n")
+    except KeyboardInterrupt:
+        print("Shutting down http server ...")
+        httpd.shutdown()
 
 def catch_keyboard_interrupt(target, cmd, cwd, port):
     """ Run subprocess.run call to catch Keyboard Interrupts """
