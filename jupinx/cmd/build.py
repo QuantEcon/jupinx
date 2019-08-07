@@ -54,7 +54,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('directory', nargs='?', type=str, default='./', action='store', 
                         help=textwrap.dedent("""
                             provide path to a project directory
-                            [Optional: './' will be assumed if not specified]
+                            (Optional: the current working directory (./) is the default)
                             """.lstrip("\n"))
     )
     parser.add_argument('-c', '--clean', action='store_true', dest='clean',
@@ -70,7 +70,6 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
                             compile RST files to Jupyter notebooks
-                            [Result: _build/jupyter]
                              """.lstrip("\n"))
     )
     parser.add_argument('-s', '--server', action='store_true', dest='html-server',
@@ -81,13 +80,11 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
                         help=textwrap.dedent("""
                             compile coverage report for project
-                            [Result: <project-directory>/_build/coverage/reports/{filename}.json]
                             """.lstrip("\n"))
     )
     parser.add_argument('-w', '--website', action='store_true', dest='website',
                         help=textwrap.dedent("""
                             compile website 
-                            [Result: _build/website/]
                             """.lstrip("\n"))
     )
     parser.add_argument('--version', action='version', dest='show_version',
@@ -96,7 +93,7 @@ def get_parser() -> argparse.ArgumentParser:
     group.add_argument('-p', '--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
-                            [Default: --parallel will result in --parallel=2 if no value is specified]
+                            (Default: --parallel will result in --parallel=2)
                             """.lstrip("\n"))
     )
     return parser
