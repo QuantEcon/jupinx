@@ -162,18 +162,24 @@ def handle_make_jupyternb(arg_dict):
 
 def handle_make_htmlserver(arg_dict):
     """ Launch HTML Server (PORT = 8901) """
-    from http.server import HTTPServer, BaseHTTPRequestHandler
+    from http.server import HTTPServer, SimpleHTTPRequestHandler
     import threading
     
+    PORT = 8901
+    webdir = arg_dict['directory'] + "_build/website/jupyter_html/"
+
     def start_server(httpd):
         httpd.serve_forever()
 
-    PORT = 8901
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=webdir, **kwargs)
+
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("website", arg_dict) is False:
         exit()
-    httpd = HTTPServer(("", PORT), BaseHTTPRequestHandler)
+    httpd = HTTPServer(("", PORT), Handler)
     print("Serving at http://localhost:{}".format(PORT))
     x = threading.Thread(target=start_server, args=(httpd,))
     x.start()
