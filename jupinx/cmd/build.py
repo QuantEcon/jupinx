@@ -20,6 +20,8 @@ from jupinx import __display_version__, package_dir
 import logging
 import webbrowser
 import textwrap
+from notebook import notebookapp
+from traitlets.config import Config
 
 ADDITIONAL_OPTIONS = [
     'directory',
@@ -55,40 +57,37 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('directory', nargs='?', type=str, default='./', action='store', 
                         help=textwrap.dedent("""
                             provide path to a project directory
-                            [Optional: './' will be assumed if not specified]
+                            (Optional: the current working directory (./) is the default)
                             """.lstrip("\n"))
     )
     parser.add_argument('-c', '--clean', action='store_true', dest='clean',
                         help=textwrap.dedent("""
-                        clean build so sphinx recompiles all source documents
+                        clean build directory
                         """.lstrip("\n"))
     )
-    parser.add_argument('-j', '--jupyterhub', action='store_true', dest='jupyterhub',
+    parser.add_argument('-j', '--jupyternb', action='store_true', dest='jupyternb',
                         help=textwrap.dedent("""
-                        open jupyter server when build completes to view notebooks
+                        open jupyter to view notebooks
                         """.lstrip("\n"))
     )
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
-                            compile a collection of Jupyter notebooks
-                            [Result: _build/jupyter]
+                            compile RST files to Jupyter notebooks
                              """.lstrip("\n"))
     )
     parser.add_argument('-s', '--server', action='store_true', dest='html-server',
                         help=textwrap.dedent("""
-                        open html server when build completes to view website
+                        open html server to view website
                         """.lstrip("\n"))
     )
     parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
                         help=textwrap.dedent("""
                             compile coverage report for project
-                            [Result: <project-directory>/_build/coverage/reports/{filename}.json]
                             """.lstrip("\n"))
     )
     parser.add_argument('-w', '--website', action='store_true', dest='website',
                         help=textwrap.dedent("""
-                            compile a website through Jupyter notebooks
-                            [Result: _build/website/]
+                            compile website 
                             """.lstrip("\n"))
     )
     parser.add_argument('-f', '--files',nargs="*", dest='files')
@@ -98,7 +97,7 @@ def get_parser() -> argparse.ArgumentParser:
     group.add_argument('-p', '--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
-                            [Default: --parallel will result in --parallel=2 if no value is specified]
+                            (Default: --parallel will result in --parallel=2)
                             """.lstrip("\n"))
     )
     return parser
@@ -146,46 +145,55 @@ def handle_make_parallel(cmd, arg_dict):
         cmd = cmd + ['FILES='+ ' '.join(arg_dict['files'])]
     subprocess.run(cmd, cwd=arg_dict['directory'])
 
-def handle_make_jupyterhub(arg_dict):
-    """ Launch Jupyterhub Server (PORT = 8900) """
-    PORT = 8900
+def handle_make_jupyternb(arg_dict):
+    """ Launch Jupyter notebook server """
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("notebooks", arg_dict) is False:
         exit()
-    cmd = ['make', 'preview', 'PORT={}'.format(PORT)]
-    print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt("notebooks", cmd, arg_dict['directory'], PORT)
+
+    ## getting the build folder
+    build_folder = arg_dict['directory'] + '_build/jupyter/'
+
+    ## Note: we can support launching of individual files in the future ##
+
+    cfg = Config()
+    # cfg.NotebookApp.file_to_run = os.path.abspath(filename)
+    cfg.NotebookApp.notebook_dir = build_folder
+    cfg.NotebookApp.open_browser = True
+    notebookapp.launch_new_instance(config=cfg,
+                                    argv=[],  # Avoid it seeing our own argv
+                                    )
 
 def handle_make_htmlserver(arg_dict):
-    """ Launch HTML Sever (PORT = 8901) """
+    """ Launch HTML Server (PORT = 8901) """
+    from http.server import HTTPServer, SimpleHTTPRequestHandler
+    import threading
+    
     PORT = 8901
+    webdir = arg_dict['directory'] + "_build/website/jupyter_html/"
+
+    def start_server(httpd):
+        httpd.serve_forever()
+
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=webdir, **kwargs)
+
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("website", arg_dict) is False:
         exit()
-    cmd = ['make', 'preview', 'target=website', 'PORT={}'.format(PORT)]
-    print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt("website", cmd, arg_dict['directory'], PORT)
-
-def catch_keyboard_interrupt(target, cmd, cwd, port):
-    """ Run subprocess.run call to catch Keyboard Interrupts """
+    httpd = HTTPServer(("", PORT), Handler)
+    print("Serving at http://localhost:{}".format(PORT))
+    x = threading.Thread(target=start_server, args=(httpd,))
+    x.start()
+    webbrowser.open("http://localhost:{}".format(PORT))
     try:
-        p = subprocess.Popen(cmd, cwd=cwd)
-        # subprocess.run(cmd, cwd=cwd)
-        if target == "website":
-            webbrowser.open("http://localhost:{}".format(port))
-        print("\nTo close the server press Ctrl-C\n")
-        #Wait for User to use Ctrl-C
-        while p:
-            pass
+        response = input("\nTo close the server please use Ctrl-C\n\n")
     except KeyboardInterrupt:
-        if target == 'notebooks':
-            subprocess.run(['jupyter', 'notebook', 'stop', '{}'.format(port)])   #Stop Notebook Server
-            p.kill()                                                  #Kill process
-            print("\nClosing notebook server on port {}".format(port))
-        else:
-            print("\nClosing website server process on port {}".format(port))
+        print("Shutting down http server ...")
+        httpd.shutdown()
 
 def make_file_actions(arg_dict: Dict):
     """
@@ -216,12 +224,20 @@ def make_file_actions(arg_dict: Dict):
     if 'jupyter' in arg_dict:
         handle_make_parallel('jupyter', arg_dict)
 
-    if 'jupyterhub' in arg_dict:
-        handle_make_jupyterhub(arg_dict)
+    if 'jupyternb' in arg_dict:
+        handle_make_jupyternb(arg_dict)
     
     if 'html-server' in arg_dict:
         handle_make_htmlserver(arg_dict)
 
+def check_project_path(path):
+    """ Check supplied project directory is valid and complete """
+    path = os.path.normpath(path) + "/"
+    if os.path.isdir(path):
+        return path
+    else:
+        logging.error("The supplied project directory {} is not found".format(path))
+        exit(1)
 
 def deleteDefaultValues(d):
     valid = False
@@ -252,13 +268,13 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
         return err.code
    
     d = vars(args)
-
     [d, valid] = deleteDefaultValues(d)
 
     ## no option specified then show help tool
     if valid is False:
         parser.print_help()
     else:
+        d['directory'] = check_project_path(d['directory'])
         make_file_actions(d)
 
 if __name__ == '__main__':

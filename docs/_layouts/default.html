@@ -17,10 +17,10 @@
   <title>Jupinx</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="{{ "/site.css" | relative_url }}">
-  <link rel="stylesheet" href="https://assets.quantecon.org/css/qe-menubar.css">
+  <link rel="stylesheet" type="text/css" href="/site.css">
+  <link rel="stylesheet" href="https://assets.quantecon.org/css/qemb.css">
 
-  <link rel="icon" type="image/x-icon" href="{{ "/favicon.ico" | relative_url }}" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
   <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
 
@@ -30,16 +30,16 @@
 
   <!-- Search Engine -->
   <meta name="description" content="Welcome to Jupinx, a build system for lectures.">
-  <meta name="image" content="http://quantecon.github.io/jupinx/jupinx-logo.png">
+  <meta name="image" content="http://jupinx.quantecon.org/jupinx-logo.png">
   <!-- Schema.org for Google -->
   <meta itemprop="name" content="Jupinx">
   <meta itemprop="description" content="Welcome to Jupinx, a build system for lectures.">
-  <meta itemprop="image" content="http://quantecon.github.io/jupinx/jupinx-logo.png">
+  <meta itemprop="image" content="http://jupinx.quantecon.org/jupinx-logo.png">
   <!-- Open Graph general (Facebook, Pinterest & Google+) -->
   <meta name="og:title" content="Jupinx">
   <meta name="og:description" content="Welcome to Jupinx, a build system for lectures.">
-  <meta name="og:image" content="http://quantecon.github.io/jupinx/jupinx-logo.png">
-  <meta name="og:url" content="http://quantecon.github.io/jupinx/">
+  <meta name="og:image" content="http://jupinx.quantecon.org/jupinx-logo.png">
+  <meta name="og:url" content="http://jupinx.quantecon.org/">
   <meta name="og:site_name" content="Jupinx">
   <meta name="og:type" content="website">
 
@@ -54,24 +54,42 @@
 
   <h1 class="sr-only">Jupinx</h1>
 
-  <div class="qe-menubar">
-  
-      <p class="qe-menubar-logo"><a href="https://quantecon.org/" title="quantecon.org"><img src="https://assets.quantecon.org/img/qe-menubar-logo.svg" alt="QuantEcon"></a></p>
-  
-      <ul class="qe-menubar-nav">
-          <li><a href="https://lectures.quantecon.org/" title="Lectures"><span>Lectures</span></a></li>
+  <div class="qemb"> <!-- QuantEcon menubar -->
+
+    <p class="qemb-logo"><a href="https://quantecon.org/" title="quantecon.org"><span class="show-for-sr">QuantEcon</span></a></p>
+
+    <ul class="qemb-nav">
+      <li class="qemb-dropdown"><a>Lectures</a>
+        <ul>
+          <li><a href="https://lectures.quantecon.org/" title="Lectures"><span>Lectures in Quantitative Economics</span></a></li>
+          <li><a href="https://datascience.quantecon.org/" title="DataScience"><span>QuantEcon DataScience</span></a></li>
+          <li><a href="http://cheatsheets.quantecon.org/" title="Cheatsheets"><span>Cheatsheets</span></a></li>
+        </ul>
+      </li>
+      <li class="qemb-dropdown"><a>Code</a>
+        <ul>
           <li><a href="https://quantecon.org/quantecon-py" title="QuantEcon.py"><span>QuantEcon.py</span></a></li>
           <li><a href="https://quantecon.org/quantecon-jl" title="QuantEcon.jl"><span>QuantEcon.jl</span></a></li>
+          <li><a href="https://jupinx.quantecon.org/">Jupinx</a></li>
+      </ul>
+      </li>
+      <li class="qemb-dropdown"><a>Notebooks</a>
+        <ul>
           <li><a href="https://quantecon.org/notebooks" title="QuantEcon Notebook Library"><span>NB Library</span></a></li>
           <li><a href="http://notes.quantecon.org/" title="QE Notes"><span>QE Notes</span></a></li>
-          <li><a href="http://cheatsheets.quantecon.org/" title="Cheatsheets"><span>Cheatsheets</span></a></li>
+        </ul>
+      </li>
+      <li class="qemb-dropdown"><a>Community</a>
+        <ul>
           <li><a href="http://blog.quantecon.org/" title="Blog"><span>Blog</span></a></li>
           <li><a href="http://discourse.quantecon.org/" title="Forum"><span>Forum</span></a></li>
-          <li><a href="http://store.quantecon.org/" title="Store"><span class="show-for-sr">Store</span></a></li>
-          <li><a href="https://github.com/QuantEcon/" title="Repository"><span class="show-for-sr">Repository</span></a></li>
-          <li><a href="https://twitter.com/quantecon" title="Twitter"><span class="show-for-sr">Twitter</span></a></li>
-      </ul>
-      
+        </ul>
+      </li>
+      <li><a href="http://store.quantecon.org/" title="Store"><span class="show-for-sr">Store</span></a></li>
+      <li><a href="https://github.com/QuantEcon/" title="Repository"><span class="show-for-sr">Repository</span></a></li>
+      <li><a href="https://twitter.com/quantecon" title="Twitter"><span class="show-for-sr">Twitter</span></a></li>
+    </ul>
+
   </div>
 
   <header class="header">
@@ -80,7 +98,7 @@
 
       <div class="header-branding">
 
-        <p class="header-logo"><a href="{{ "/" | relative_url }}"><img src="jupinx-logo.png" alt="Jupinx logo"></a></p>
+        <p class="header-logo"><a href="/"><img src="jupinx-logo.png" alt="Jupinx logo"></a></p>
 
         <p class="header-tagline">Welcome to Jupinx, a build system for lectures.</p>
 
@@ -97,9 +115,9 @@
           <li><a href="https://jupinx.readthedocs.io/" class="button">Documentation</a></li>
           <li><a href="https://github.com/QuantEcon/jupinx" class="button">Repository</a></li>
           {% if page.title == 'Tutorial' %}
-          <li class="active"><a href="{{ "tutorial" | relative_url }}" class="button">Tutorial</a></li>
+          <li class="active"><a href="/tutorial" class="button">Tutorial</a></li>
           {% else %}
-          <li><a href="{{ "tutorial" | relative_url }}" class="button">Tutorial</a></li>
+          <li><a href="/tutorial" class="button">Tutorial</a></li>
           {% endif %}
         </ul>
 
