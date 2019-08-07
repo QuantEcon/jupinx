@@ -59,23 +59,23 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-c', '--clean', action='store_true', dest='clean',
                         help=textwrap.dedent("""
-                        clean build so sphinx recompiles all source documents
+                        clean build directory
                         """.lstrip("\n"))
     )
     parser.add_argument('-j', '--jupyterhub', action='store_true', dest='jupyterhub',
                         help=textwrap.dedent("""
-                        open jupyter server when build completes to view notebooks
+                        open jupyter to view notebooks
                         """.lstrip("\n"))
     )
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
-                            compile a collection of Jupyter notebooks
+                            compile RST files to Jupyter notebooks
                             [Result: _build/jupyter]
                              """.lstrip("\n"))
     )
     parser.add_argument('-s', '--server', action='store_true', dest='html-server',
                         help=textwrap.dedent("""
-                        open html server when build completes to view website
+                        open html server to view website
                         """.lstrip("\n"))
     )
     parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
@@ -86,7 +86,7 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-w', '--website', action='store_true', dest='website',
                         help=textwrap.dedent("""
-                            compile a website through Jupyter notebooks
+                            compile website 
                             [Result: _build/website/]
                             """.lstrip("\n"))
     )
