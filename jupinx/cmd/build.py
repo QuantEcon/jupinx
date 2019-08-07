@@ -173,15 +173,34 @@ def handle_make_jupyternb(arg_dict):
                                     )
 
 def handle_make_htmlserver(arg_dict):
-    """ Launch HTML Sever (PORT = 8901) """
+    """ Launch HTML Server (PORT = 8901) """
+    from http.server import HTTPServer, SimpleHTTPRequestHandler
+    import threading
+    
     PORT = 8901
+    webdir = arg_dict['directory'] + "_build/website/jupyter_html/"
+
+    def start_server(httpd):
+        httpd.serve_forever()
+
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=webdir, **kwargs)
+
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("website", arg_dict) is False:
         exit()
-    cmd = ['make', 'preview', 'target=website', 'PORT={}'.format(PORT)]
-    print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt("website", cmd, arg_dict['directory'], PORT)
+    httpd = HTTPServer(("", PORT), Handler)
+    print("Serving at http://localhost:{}".format(PORT))
+    x = threading.Thread(target=start_server, args=(httpd,))
+    x.start()
+    webbrowser.open("http://localhost:{}".format(PORT))
+    try:
+        response = input("\nTo close the server please use Ctrl-C\n\n")
+    except KeyboardInterrupt:
+        print("Shutting down http server ...")
+        httpd.shutdown()
 
 def make_file_actions(arg_dict: Dict):
     """
