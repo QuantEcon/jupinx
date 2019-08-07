@@ -4,41 +4,60 @@ layout: default
 permalink: /tutorial.html
 ---
 
-Tutorial: Setting up a Project
-==============================
 
-This tutorial will take you through the steps needed to get up and running. 
 
-Step 1: Installing Package
---------------------------
 
-Make sure you have `jupinx` installed. It can be installed using `pip`:
+
+
+# Tutorial: Setting up a Project
+
+This tutorial will take you through the steps needed to get up and running
+with `jupinx`. 
+
+## Installation
+
+Make sure you have `jupinx` installed: 
 
 ```bash
-pip install jupinx
+pip install --upgrade jupinx
 ```
 
-Step 2: Create a Sphinx Project
--------------------------------
 
-Navigate to your working directory and create a folder for your project
+## Understanding Source Directories
+
+The `jupinx` command line tool converts RST files in a **source directory**
+into 
+
+1. a set of Jupyter Notebooks and
+2. a website.
+
+A valid source directory which must contain
+
+* some RST files, including one called `index.rst` and
+
+* a configuration file called `conf.py`.
+
+
+## Creating a Source Directory
+
+One way to set up a valid source directory is the `jupinx-quickstart` executable.
+
+To use it, first create a folder for your project
 
 ```bash
 mkdir jupinx-project
 ```
 
-You can then use the `jupinx-quickstart` utility to setup the project quickly with some basic configuration already in place:
+Now type
 
 ```bash
 cd jupinx-project
 jupinx-quickstart
 ```
 
-> **_NOTE:_**  You may also specify a target folder during the quickstart process, as long as that folder already exists.
+(You can also specify a target folder as long as that folder already exists.) 
 
-
-The `quickstart-utility` will take you through a series of questions to assist with 
-this configuration:
+The `quickstart-utility` will take you through a series of questions:
 
 ```bash
 Welcome to the Jupinx 0.0.1 quickstart utility.
@@ -89,23 +108,19 @@ source files. Use the Makefile to build the docs, like so:
 where "builder" is one of the supported builders, e.g. html, latex or linkcheck.
 ```
 
-and you should now see the following files and folders in your directory:
+You should now see the following files and folders in your directory:
 
 ```bash
-Makefile	_build		conf.py		source		theme
+ls jupinx-project
+
+> Makefile	_build		conf.py		source		theme
 ```
 
-This is the structure adopted by the `jupinx` project. You can now start building Jupyter 
-notebooks using `jupinx`
 
-```bash
-jupinx --notebooks
-```
+Now let's create our first source file.
 
-As there is not content in this project we should first create our first source file.
 
-Step 3: Writing your first RST Source File
-------------------------------------------
+## Writing an RST Source File
 
 The `source` directory is the place that should contain all your source `rst` files. 
 
@@ -138,50 +153,89 @@ This is our first notebook and it will contain the following code-block.
 
 You will need to also add `first_notebook` to the `toctree` in your `source/index.rst` file.
 
-Step 4: Building your Project
------------------------------
 
-Now in your project folder `jupinx-project` you can start building your project:
+## Building and Viewing
 
-```bash
-jupinx --notebooks
-```
+Let's have a look at our project.
 
-will generate notebooks from the `rst` files and place them in `_build/jupyter/`
-
-You can view the results by launching a Jupyter notebook server using:
+With `jupinx-project` in the present working directory, type
 
 ```bash
-jupinx --jupyterhub
+jupinx --notebooks jupinx-project
 ```
 
-It is also possible to specify these options together (using short notation):
+Alternatively, you can use the full path:
 
 ```bash
-jupinx -nj
+jupinx --notebooks /home/full/path/jupinx-project
 ```
 
-which will build the notebooks and then launch the Jupyter notebook server
+You can also shorten to 
+
+```bash
+jupinx -n jupinx-project
+```
+
+(Or, if you are at the root level of `jupinx-project`, you can just type `jupinx -n`.) 
+
+This generates notebooks from the `rst` files and puts them in `_build/jupyter/`
+
+To view the results using Jupter Notebooks, type
+
+```
+jupinx -j jupinx-project
+```
+
+To convert the RST files into a website, use
+
+```
+jupinx -w jupinx-project
+```
+
+To view this website,  use
+
+```
+jupinx -s jupinx-project
+```
+
+To see more detail on these commands, type
+
+```
+jupinx --help
+```
+
+More details can be found in the [documentation](https://jupinx.readthedocs.io/).
 
 
-Step 5: Advanced Configuration of `sphinxcontrib-jupyter`
----------------------------------------------------------
+### Advanced Configuration
 
-Now that we have succesfully built your first notebook we can set that notebook to execute 
-by enabling the execution option in the `conf.py` file. 
+In the tasks listed above, much of the heavy lifting is performed by 
+the [sphinxcontrib-jupyter extension](https://github.com/QuantEcon/sphinxcontrib-jupyter).
 
-You can open `conf.py` file and at the bottom of this file you can find sphinxcontrib-jupyter
-options. You can add:
+See the documentation of that project for additional information.
+
+
+
+
+
+
+## Advanced Configuration 
+
+We can set generated notebooks to execute by enabling the execution option in the `conf.py` file. 
+
+Open `conf.py` file and at the bottom of this file you will find sphinxcontrib-jupyter options. You can add:
 
 ```python
 jupyter_execute_notebooks = True
 ```
 
-this will now build notebooks and then execute them for you with results stored in 
-`_build/jupyter/executed`. You can test this by:
+This will now build notebooks and then execute them for you with results stored in `_build/jupyter/executed`. You can test this by:
 
 ```bash
 jupinx --clean --notebooks
 ```
 
 > **_NOTE:_** The [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html) has a section on Managing Large Projects that may require different compilation pipelines for editing and publishing. 
+
+
+
