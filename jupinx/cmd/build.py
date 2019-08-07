@@ -228,6 +228,14 @@ def make_file_actions(arg_dict: Dict):
     if 'html-server' in arg_dict:
         handle_make_htmlserver(arg_dict)
 
+def check_project_path(path):
+    """ Check supplied project directory is valid and complete """
+    path = os.path.normpath(path) + "/"
+    if os.path.isdir(path):
+        return path
+    else:
+        logging.error("The supplied project directory {} is not found".format(path))
+        exit(1)
 
 def deleteDefaultValues(d):
     valid = False
@@ -258,14 +266,13 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
         return err.code
    
     d = vars(args)
-
-
     [d, valid] = deleteDefaultValues(d)
 
     ## no option specified then show help tool
     if valid is False:
         parser.print_help()
     else:
+        d['directory'] = check_project_path(d['directory'])
         make_file_actions(d)
 
 if __name__ == '__main__':
