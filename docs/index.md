@@ -6,7 +6,6 @@ permalink: /
 
 * * *
 
-## Get Started
 
 ### Installation
 
@@ -22,59 +21,80 @@ to upgrade your current installation to the latest version:
 pip install jupinx --upgrade
 ```
 
-### Quickstart
 
-When starting your own projects a `jupinx-quickstart` is available that will guide you through the initial setup
-of a sphinx project that is setup to use the [sphinxcontrib-jupyter](https://github.com/QuantEcon/sphinxcontrib-jupyter)
-extension.
+
+## Get Started
+
+The following is a very quick introduction to `jupinx`.
 
 For more information, please see the [tutorial](tutorial.md)
 
 
+### Source Repositories
+
+The `jupinx` command line tool acts on a *source directory*, which must contain
+
+* some RST files, including one called `index.rst` and
+
+* a configuration file called `conf.py`.
+
+(When starting your own projects, a `jupinx-quickstart` executable is available to guide you through the initial setup.)
+
+
 ### Usage
 
-To build a collection of notebooks using `Jupinx`:
+Let's say you have a valid source directory called `source_directory` 
 
 ```
-jupinx --notebooks <PROJECT-DIRECTORY>
+$ ls source_directory 
+
+_build  conf.py  Makefile  source  theme
 ```
 
-You can also use short versions such as:
+To convert the RST files in `source_directory` into notebooks, use
 
 ```
-jupinx -n <PROJECT-DIRECTORY>
+$ jupinx --notebooks source_directory
 ```
 
-As a convenience, if you are at the root level of your project directory you can trigger a build without specifying the directory location:
+You can also use the short version:
 
 ```
-jupinx --notebooks
+$ jupinx -n source_directory
 ```
 
-or simply
+(Or, if you are at the root level of `source_directory`, you can just type `jupinx -n`.)
+
+To view the results using Jupter Notebooks, type
 
 ```
-jupinx -n
+$ jupinx -j source_directory
 ```
 
-You can also see the options available using:
+To convert the RST files into a website, use
 
 ```
-jupinx --help
+$ jupinx -w source_directory
 ```
 
-Additional compilation options are available and details can be found in the [documentation](https://jupinx.readthedocs.io/)
+To view the results of this command, use
+
+```
+$ jupinx -s source_directory
+```
+
+To see more detail on these commands, type
+
+```
+$ jupinx --help
+```
+
+Additional compilation options are available and details can be found in the [documentation](https://jupinx.readthedocs.io/).
 
 
 ### Advanced Configuration
 
-The `jupinx-quickstart` will get you up and running to build Jupyter notebooks. 
-However you may want more advanced control of your project. 
-The [sphinxcontrib-jupyter extension](https://github.com/QuantEcon/sphinxcontrib-jupyter) 
-can be configured to:
+In the tasks listed above, much of the heavy lifting is performed by 
+the [sphinxcontrib-jupyter extension](https://github.com/QuantEcon/sphinxcontrib-jupyter).
 
-1. Enable Notebook Execution (after construction)
-1. Enable the construction of a website (from the ipynb collection)
-
-Documentation can be found [here](https://jupinx.readthedocs.io/en/latest/?badge=latest)
-
+See the documentation of that project for additional information.

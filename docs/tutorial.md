@@ -27,8 +27,7 @@ Navigate to your working directory and create a folder for your project
 mkdir jupinx-project
 ```
 
-You can then use the `jupinx-quickstart` utility to setup the project quickly with 
-some basic configuration already in place:
+You can then use the `jupinx-quickstart` utility to setup the project quickly with some basic configuration already in place:
 
 ```bash
 cd jupinx-project
