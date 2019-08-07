@@ -7,23 +7,23 @@ permalink: /
 * * *
 
 
-### Installation
+## Installation
 
-To install `Jupinx`:
-
-```
-pip install jupinx
-```
-
-to upgrade your current installation to the latest version:
+To install `Jupinx`, open a terminal and type
 
 ```
-pip install jupinx --upgrade
+$ pip install jupinx
+```
+
+to upgrade your current installation to the latest version, use
+
+```
+$ pip install jupinx --upgrade
 ```
 
 
 
-## Get Started
+## Getting Started
 
 The following is a very quick introduction to `jupinx`.  More details can be found in the [tutorial](tutorial.md).
 
