@@ -212,7 +212,12 @@ More details can be found in the [documentation](https://jupinx.readthedocs.io/)
 
 ## Advanced Configuration 
 
-We can set generated notebooks to execute by enabling the execution option in the `conf.py` file. 
+Much of the heavy lifting for `jupinx` is done by a Sphinx extension called
+[sphinxcontrib-jupyter](https://github.com/QuantEcon/sphinxcontrib-jupyter/)
+
+For details on advanced configuration, see the [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html).
+
+As one example, we can set generated notebooks to execute by enabling the execution option in the `conf.py` file. 
 
 Open `conf.py` file and at the bottom of this file you will find sphinxcontrib-jupyter options. You can add:
 
@@ -225,8 +230,5 @@ This will now build notebooks and then execute them for you with results stored 
 ```bash
 jupinx --clean --notebooks
 ```
-
-> **_NOTE:_** The [sphinxcontrib-jupyter documentation](https://sphinxcontrib-jupyter.readthedocs.io/en/latest/config-project.html) has a section on Managing Large Projects that may require different compilation pipelines for editing and publishing. 
-
 
 
