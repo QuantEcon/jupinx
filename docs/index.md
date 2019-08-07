@@ -55,5 +55,5 @@ Get help:
 jupinx --help
 ```
 
-More details can be found in the [documentation](https://jupinx.readthedocs.io/).
+More details can be found in the [tutorial](tutorial.md) and the [documentation](https://jupinx.readthedocs.io/).
 
