@@ -159,8 +159,7 @@ def handle_make_jupyternb(arg_dict):
         exit()
 
     ## getting the build folder
-    cwd = os.getcwd()
-    build_folder = cwd + "/" + arg_dict['directory'] + '_build/jupyter/'
+    build_folder = arg_dict['directory'] + '_build/jupyter/'
 
     ## Note: we can support launching of individual files in the future ##
 
