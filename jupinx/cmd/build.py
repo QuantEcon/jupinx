@@ -20,6 +20,8 @@ from jupinx import __display_version__, package_dir
 import logging
 import webbrowser
 import textwrap
+from notebook import notebookapp
+from traitlets.config import Config
 
 ADDITIONAL_OPTIONS = [
     'directory',
@@ -150,15 +152,25 @@ def handle_make_parallel(cmd, arg_dict):
             subprocess.run(cmd, cwd=arg_dict['directory'])
 
 def handle_make_jupyternb(arg_dict):
-    """ Launch Jupyter notebook server (PORT = 8900) """
-    PORT = 8900
+    """ Launch Jupyter notebook server """
     if check_directory_makefile(arg_dict) is False:
         exit()
     if check_view_result_directory("notebooks", arg_dict) is False:
         exit()
-    cmd = ['make', 'preview', 'PORT={}'.format(PORT)]
-    print("Running: " + " ".join(cmd))
-    catch_keyboard_interrupt("notebooks", cmd, arg_dict['directory'], PORT)
+
+    ## getting the build folder
+    cwd = os.getcwd()
+    build_folder = cwd + "/" + arg_dict['directory'] + '_build/jupyter/'
+
+    ## Note: we can support launching of individual files in the future ##
+
+    cfg = Config()
+    # cfg.NotebookApp.file_to_run = os.path.abspath(filename)
+    cfg.NotebookApp.notebook_dir = build_folder
+    cfg.NotebookApp.open_browser = True
+    notebookapp.launch_new_instance(config=cfg,
+                                    argv=[],  # Avoid it seeing our own argv
+                                    )
 
 def handle_make_htmlserver(arg_dict):
     """ Launch HTML Sever (PORT = 8901) """
@@ -170,25 +182,6 @@ def handle_make_htmlserver(arg_dict):
     cmd = ['make', 'preview', 'target=website', 'PORT={}'.format(PORT)]
     print("Running: " + " ".join(cmd))
     catch_keyboard_interrupt("website", cmd, arg_dict['directory'], PORT)
-
-def catch_keyboard_interrupt(target, cmd, cwd, port):
-    """ Run subprocess.run call to catch Keyboard Interrupts """
-    try:
-        p = subprocess.Popen(cmd, cwd=cwd)
-        # subprocess.run(cmd, cwd=cwd)
-        if target == "website":
-            webbrowser.open("http://localhost:{}".format(port))
-        print("\nTo close the server press Ctrl-C\n")
-        #Wait for User to use Ctrl-C
-        while p:
-            pass
-    except KeyboardInterrupt:
-        if target == 'notebooks':
-            subprocess.run(['jupyter', 'notebook', 'stop', '{}'.format(port)])   #Stop Notebook Server
-            p.kill()                                                  #Kill process
-            print("\nClosing notebook server on port {}".format(port))
-        else:
-            print("\nClosing website server process on port {}".format(port))
 
 def make_file_actions(arg_dict: Dict):
     """
