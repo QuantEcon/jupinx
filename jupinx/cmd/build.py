@@ -62,7 +62,7 @@ def get_parser() -> argparse.ArgumentParser:
                         clean build directory
                         """.lstrip("\n"))
     )
-    parser.add_argument('-j', '--jupyterhub', action='store_true', dest='jupyterhub',
+    parser.add_argument('-j', '--jupyternb', action='store_true', dest='jupyternb',
                         help=textwrap.dedent("""
                         open jupyter to view notebooks
                         """.lstrip("\n"))
@@ -152,8 +152,8 @@ def handle_make_parallel(cmd, arg_dict):
             print("Running: " + " ".join(cmd))
             subprocess.run(cmd, cwd=arg_dict['directory'])
 
-def handle_make_jupyterhub(arg_dict):
-    """ Launch Jupyterhub Server (PORT = 8900) """
+def handle_make_jupyternb(arg_dict):
+    """ Launch Jupyter notebook server (PORT = 8900) """
     PORT = 8900
     if check_directory_makefile(arg_dict) is False:
         exit()
@@ -222,8 +222,8 @@ def make_file_actions(arg_dict: Dict):
     if 'jupyter' in arg_dict:
         handle_make_parallel('jupyter', arg_dict)
 
-    if 'jupyterhub' in arg_dict:
-        handle_make_jupyterhub(arg_dict)
+    if 'jupyternb' in arg_dict:
+        handle_make_jupyternb(arg_dict)
     
     if 'html-server' in arg_dict:
         handle_make_htmlserver(arg_dict)
