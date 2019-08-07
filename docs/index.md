@@ -25,9 +25,7 @@ pip install jupinx --upgrade
 
 ## Get Started
 
-The following is a very quick introduction to `jupinx`.
-
-For more information, please see the [tutorial](tutorial.md)
+The following is a very quick introduction to `jupinx`.  More details can be found in the [tutorial](tutorial.md).
 
 
 ### Source Repositories
@@ -38,7 +36,7 @@ The `jupinx` command line tool acts on a *source directory*, which must contain
 
 * a configuration file called `conf.py`.
 
-(When starting your own projects, a `jupinx-quickstart` executable is available to guide you through the initial setup.)
+(A `jupinx-quickstart` executable is available to help you setup a valid source directory.)
 
 
 ### Usage
@@ -77,7 +75,7 @@ To convert the RST files into a website, use
 $ jupinx -w source_directory
 ```
 
-To view the results of this command, use
+To view this website,  use
 
 ```
 $ jupinx -s source_directory
@@ -89,7 +87,7 @@ To see more detail on these commands, type
 $ jupinx --help
 ```
 
-Additional compilation options are available and details can be found in the [documentation](https://jupinx.readthedocs.io/).
+More details can be found in the [documentation](https://jupinx.readthedocs.io/).
 
 
 ### Advanced Configuration
