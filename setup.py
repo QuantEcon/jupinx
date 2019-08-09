@@ -18,7 +18,9 @@ install_requires = [
     'ipython', 
     'nbconvert', 
     'jupyter_client',
-    'pyzmq>=17.1.3'
+    'pyzmq>=17.1.3',
+    'sphinxcontrib-bibtex',
+    'sphinxcontrib-jupyter'
 ]
 
 setup(
