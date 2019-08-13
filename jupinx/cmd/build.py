@@ -45,6 +45,7 @@ def get_parser() -> argparse.ArgumentParser:
         "Examples:\n"
         "    jupinx --notebooks (within a project directory)\n"
         "    jupinx -n lecture-source-py (specify path to project directory)\n"
+        "    jupinx -n lecture-source-py -f source/lecture1.rst"
         "\n"
         "Further documentation is available: https://quantecon.github.io/jupinx/.\n"
     )
@@ -62,13 +63,13 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-c', '--clean', action='store_true', dest='clean',
                         help=textwrap.dedent("""
-                        clean build directory
-                        """.lstrip("\n"))
+                            clean build directory
+                            """.lstrip("\n"))
     )
     parser.add_argument('-j', '--jupyternb', action='store_true', dest='jupyternb',
                         help=textwrap.dedent("""
-                        open jupyter to view notebooks
-                        """.lstrip("\n"))
+                            open jupyter to view notebooks
+                            """.lstrip("\n"))
     )
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
@@ -77,8 +78,8 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-s', '--server', action='store_true', dest='html-server',
                         help=textwrap.dedent("""
-                        open html server to view website
-                        """.lstrip("\n"))
+                            open html server to view website
+                            """.lstrip("\n"))
     )
     parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
                         help=textwrap.dedent("""
@@ -90,7 +91,6 @@ def get_parser() -> argparse.ArgumentParser:
                             compile website 
                             """.lstrip("\n"))
     )
-    parser.add_argument('-f', '--files',nargs="*", dest='files')
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     group = parser.add_argument_group(__('additional options'))
@@ -98,6 +98,11 @@ def get_parser() -> argparse.ArgumentParser:
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
                             (Default: --parallel will result in --parallel=2)
+                            """.lstrip("\n"))
+    )
+    group.add_argument('-f', '--files', nargs="*", dest='files',
+                        help=textwrap.dedent("""
+                            specify files for compilation
                             """.lstrip("\n"))
     )
     return parser
