@@ -16,15 +16,15 @@ Installation
 
 To install `jupinx <https://github.com/QuantEcon/jupinx>`__:
 
-.. warning::
-
-    This project is **not** yet released through PyPI. Please instead install 
-    using :code:`python setup.py install` from within a clone of the 
-    repository.
-
 .. code-block:: bash
 
     pip install jupinx
+
+or you can upgrade to the latest version using:
+
+.. code-block:: bash
+
+    pip install --upgrade jupinx
 
 .. note::
 
