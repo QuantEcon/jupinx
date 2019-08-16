@@ -18,6 +18,7 @@ import importlib
 from collections import OrderedDict
 from os import path
 from typing import Any, Callable, Dict, List, Pattern, Union
+import json
 from distutils.dir_util import copy_tree
 
 # try to import readline, unix specific enhancement
@@ -371,6 +372,9 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     for (key, value) in KERNELLIST.items():
         if d['kernels'][key] is True:
             d['kernels'][key] = value
+
+    ## pretty print the json
+    d['kernels'] = json.dumps(d['kernels'], sort_keys=True, indent=4)
 
     def write_file(fpath: str, content: str, newline: str = None) -> None:
         if overwrite or not path.isfile(fpath):
