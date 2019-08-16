@@ -113,3 +113,5 @@ The following **additional options** are provided:
 -p [PARALLEL], --parallel [PARALLEL]
                     Specify the number of workers for parallel execution 
                     (Default: --parallel will result in --parallel=2)
+-f [FILES [FILES ...]], --files [FILES [FILES ...]]
+                     specify files for compilation

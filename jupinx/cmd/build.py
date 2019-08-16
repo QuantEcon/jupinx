@@ -25,7 +25,8 @@ from traitlets.config import Config
 
 ADDITIONAL_OPTIONS = [
     'directory',
-    'parallel'
+    'parallel',
+    'files'
 ]
 
 logging.basicConfig(format='%(levelname)s: %(message)s')
@@ -44,6 +45,7 @@ def get_parser() -> argparse.ArgumentParser:
         "Examples:\n"
         "    jupinx --notebooks (within a project directory)\n"
         "    jupinx -n lecture-source-py (specify path to project directory)\n"
+        "    jupinx -n lecture-source-py -f source/lecture1.rst"
         "\n"
         "Further documentation is available: https://quantecon.github.io/jupinx/.\n"
     )
@@ -61,13 +63,13 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-c', '--clean', action='store_true', dest='clean',
                         help=textwrap.dedent("""
-                        clean build directory
-                        """.lstrip("\n"))
+                            clean build directory
+                            """.lstrip("\n"))
     )
     parser.add_argument('-j', '--jupyternb', action='store_true', dest='jupyternb',
                         help=textwrap.dedent("""
-                        open jupyter to view notebooks
-                        """.lstrip("\n"))
+                            open jupyter to view notebooks
+                            """.lstrip("\n"))
     )
     parser.add_argument('-n', '--notebooks', action='store_true', dest='jupyter',
                         help=textwrap.dedent("""
@@ -76,8 +78,8 @@ def get_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument('-s', '--server', action='store_true', dest='html-server',
                         help=textwrap.dedent("""
-                        open html server to view website
-                        """.lstrip("\n"))
+                            open html server to view website
+                            """.lstrip("\n"))
     )
     parser.add_argument('-t', '--coverage-tests', action='store_true', dest='coverage',
                         help=textwrap.dedent("""
@@ -96,6 +98,11 @@ def get_parser() -> argparse.ArgumentParser:
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
                             (Default: --parallel will result in --parallel=2)
+                            """.lstrip("\n"))
+    )
+    group.add_argument('-f', '--files', nargs="*", dest='files',
+                        help=textwrap.dedent("""
+                            specify files for compilation
                             """.lstrip("\n"))
     )
     return parser
@@ -132,24 +139,16 @@ def check_view_result_directory(target, arg_dict):
 def handle_make_parallel(cmd, arg_dict):
     if check_directory_makefile(arg_dict) is False:
         exit()
-    if sys.version_info.major == 2:
-        if 'parallel' in arg_dict:
-            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
-            print("Running: " + " ".join(cmd))
-            subprocess.call(cmd, cwd=arg_dict['directory'])
-        else:
-            cmd = ['make', cmd]
-            print("Running: " + " ".join(cmd))
-            subprocess.call(cmd, cwd=arg_dict['directory'])
+    if 'parallel' in arg_dict:
+        cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
+        print("Running: " + " ".join(cmd))
     else:
-        if 'parallel' in arg_dict:
-            cmd = ['make', cmd, 'parallel=' + str(arg_dict['parallel'])]
-            print("Running: " + " ".join(cmd))
-            subprocess.run(cmd, cwd=arg_dict['directory'])
-        else:
-            cmd = ['make', cmd]
-            print("Running: " + " ".join(cmd))
-            subprocess.run(cmd, cwd=arg_dict['directory'])
+        cmd = ['make', cmd]
+        print("Running: " + " ".join(cmd))
+
+    if 'files' in arg_dict:
+        cmd = cmd + ['FILES='+ ' '.join(arg_dict['files'])]
+    subprocess.run(cmd, cwd=arg_dict['directory'])
 
 def handle_make_jupyternb(arg_dict):
     """ Launch Jupyter notebook server """
