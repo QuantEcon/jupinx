@@ -21,7 +21,7 @@ install_requires = [
     'jupyter_client',
     'pyzmq>=17.1.3',
     'sphinxcontrib-bibtex',
-    'sphinxcontrib-jupyter'
+    'sphinxcontrib-jupyter>=0.4.1'
 ]
 
 setup(
