@@ -76,6 +76,11 @@ def get_parser() -> argparse.ArgumentParser:
                             compile RST files to Jupyter notebooks
                              """.lstrip("\n"))
     )
+    parser.add_argument('-p', '--pdf', action='store_true', dest='pdf',
+                        help=textwrap.dedent("""
+                            compile RST files to PDF files
+                            """.lstrip("\n"))
+    )
     parser.add_argument('-s', '--server', action='store_true', dest='html-server',
                         help=textwrap.dedent("""
                             open html server to view website
@@ -94,7 +99,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     group = parser.add_argument_group(__('additional options'))
-    group.add_argument('-p', '--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
+    group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
                             (Default: --parallel will result in --parallel=2)
@@ -127,14 +132,19 @@ def check_view_result_directory(target, arg_dict):
         dir = arg_dict['directory'] + "_build/jupyter/"
     elif target == "website":
         dir = arg_dict['directory'] + "_build/website/jupyter_html/"
+    elif target == "pdf":
+        dir = arg_dict['directory'] + "_build/jupyterpdf/pdf"
     else:
-        logging.error("target must be directory or website for the -v, --view option")
+        pass
     if os.path.exists(dir) is False:
         if target == "notebooks":
             logging.error("Results directory: {} does not exist!\nPlease run jupinx -n to build notebooks".format(dir))
         elif target == "website":
             logging.error("Results directory: {} does not exist.\n Please run jupinx -w to build website".format(dir))
+        elif target == "pdf":
+            logging.error("Results directory: {} does not exist.\n Please run jupinx -p to build pdf".format(dir))
         return False
+    return True
 
 def handle_make_parallel(cmd, arg_dict):
     if check_directory_makefile(arg_dict) is False:
@@ -145,10 +155,11 @@ def handle_make_parallel(cmd, arg_dict):
     else:
         cmd = ['make', cmd]
         print("Running: " + " ".join(cmd))
-
     if 'files' in arg_dict:
         cmd = cmd + ['FILES='+ ' '.join(arg_dict['files'])]
     subprocess.run(cmd, cwd=arg_dict['directory'])
+    if 'pdf' in cmd:
+        print("PDF files can be found in: {}_build/jupyterpdf/pdf/".format(arg_dict['directory']))
 
 def handle_make_jupyternb(arg_dict):
     """ Launch Jupyter notebook server """
@@ -234,6 +245,9 @@ def make_file_actions(arg_dict: Dict):
     
     if 'html-server' in arg_dict:
         handle_make_htmlserver(arg_dict)
+
+    if 'pdf' in arg_dict:
+        handle_make_parallel('pdf', arg_dict)
 
 def check_project_path(path):
     """ Check supplied project directory is valid and complete """
