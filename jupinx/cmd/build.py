@@ -22,6 +22,7 @@ import webbrowser
 import textwrap
 from notebook import notebookapp
 from traitlets.config import Config
+from distutils.spawn import find_executable
 
 ADDITIONAL_OPTIONS = [
     'directory',
@@ -247,7 +248,16 @@ def make_file_actions(arg_dict: Dict):
         handle_make_htmlserver(arg_dict)
 
     if 'pdf' in arg_dict:
+        check_xelatex_installed()
         handle_make_parallel('pdf', arg_dict)
+
+def check_xelatex_installed():
+    if not find_executable('xelatex'):
+        self.logger.warning(
+            "Cannot find a xelatex executable for pdf compilation.\n" +
+            "If you need to install tex it is recommended to install texlive: https://www.tug.org/texlive/"
+        )
+        exit(1)
 
 def check_project_path(path):
     """ Check supplied project directory is valid and complete """
