@@ -103,6 +103,7 @@ The following **options** are provided:
 -c, --clean           clean build directory
 -j, --jupyternb       open jupyter to view notebooks
 -n, --notebooks       compile RST files to Jupyter notebooks
+-d, --pdf             compile RST files to PDF files
 -s, --server          open html server to view website
 -t, --coverage-tests  compile coverage report for project
 -w, --website         compile website 
