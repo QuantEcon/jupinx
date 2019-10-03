@@ -77,7 +77,7 @@ def get_parser() -> argparse.ArgumentParser:
                             compile RST files to Jupyter notebooks
                              """.lstrip("\n"))
     )
-    parser.add_argument('-d', '--pdf', action='store_true', dest='pdf',
+    parser.add_argument('-p', '--pdf', action='store_true', dest='pdf',
                         help=textwrap.dedent("""
                             compile RST files to PDF files
                             """.lstrip("\n"))
@@ -100,13 +100,13 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % __display_version__)
     group = parser.add_argument_group(__('additional options'))
-    group.add_argument('-p', '--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
+    group.add_argument('--parallel', dest='parallel', nargs='?', type=int, const='2', action='store',
                         help=textwrap.dedent("""
                             Specify the number of workers for parallel execution 
                             (Default: --parallel will result in --parallel=2)
                             """.lstrip("\n"))
     )
-    group.add_argument('-f', '--files', nargs="*", dest='files',
+    group.add_argument('--files', nargs="*", dest='files',
                         help=textwrap.dedent("""
                             specify files for compilation
                             """.lstrip("\n"))
