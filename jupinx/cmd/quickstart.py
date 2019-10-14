@@ -405,6 +405,9 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     ## forming a minimal template of index.rst here
     masterfile = path.join(srcdir, d['master'] + d['suffix'])
     write_file(masterfile, template.render('quickstart/master_doc.rst_t', d))
+    demofile = path.join(srcdir, 'demo_notebook.rst')
+    write_file(demofile, template.render('quickstart/demo_notebook.rst_t', d))
+    copy_tree(package_dir + '/templates/quickstart/_static/', srcdir + '/_static/')
 
     ## taking the minimal Makefile 
     makefile_template = 'quickstart/Makefile_t'

@@ -1,6 +1,6 @@
 {%- extends 'display_priority.tpl' -%}
 
-{% set site_title = 'Lectures' %}
+{% set site_title = 'Documentation' %}
 {% set nb_title = nb.metadata.get('title', '') %}
 {% set nb_filename = nb.metadata.get('filename', '') %}
 {% set nb_filename_with_path = nb.metadata.get('filename_with_path','') %}
