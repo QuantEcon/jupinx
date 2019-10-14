@@ -112,7 +112,7 @@ todo_include_todos = True
 {%- endif %}
 
 # -- jupyter build configuration ---------------------------------------------------
-jupyter_kernels = {{ kernels}}
+jupyter_kernels = {{ kernels }}
 
 
 # --------------------------------------------
@@ -168,11 +168,11 @@ jupyter_template_coverage_file_path = False
 # generate html from IPYNB files
 jupyter_generate_html = False
 
-# html template specific to your website needs
-jupyter_html_template = ""
+# theme path
+jupyter_theme_path = "theme/minimal"
 
-# latex template specific to your website needs
-jupyter_latex_template = ""
+# template path
+jupyter_template_path = "theme/minimal/templates"
 
 #make website
 jupyter_make_site = False
