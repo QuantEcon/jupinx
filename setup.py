@@ -4,12 +4,16 @@ import jupinx
 
 from setuptools import setup, find_packages
 
-long_desc = '''
+LONG_DESCRIPTION = '''
 This package contains the Jupinx cmd and quickstart utilities.
+
+Documentation and a tutorial can be found `here <https://jupinx.quantecon.org/>`_.
+
+This project is maintained and supported by `QuantEcon <http://quantecon.org/>`_.
 '''
 VERSION = jupinx.__version__
 
-install_requires = [
+INSTALL_REQUIRES = [
     'docutils', 
     'nbformat', 
     'sphinx>=1.8.5', 
@@ -33,7 +37,7 @@ setup(
     author='QuantEcon',
     author_email='admin@quantecon.org',
     description='Jupinx extension: Convert your RST files into into different formats like notebook, pdf, html.',
-    long_description=long_desc,
+    long_description=LONG_DESCRIPTION,
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -58,5 +62,5 @@ setup(
             'jupinx = jupinx.cmd.build:main'
         ]
     },
-    install_requires=install_requires
+    install_requires=INSTALL_REQUIRES
 )
