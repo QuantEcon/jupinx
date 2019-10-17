@@ -333,7 +333,7 @@ var element = $('#{{ div_id }}');
 
 			<footer class="footer">
 
-				<p>&copy; Copyright XXXX, Occaecat ipsum culpa nulla in Lorem dolor exercitation adipisicing in qui pariatur.</p>
+				<p>&copy; Copyright <YEAR>, Built using the minimal jupinx template.</p>
 
 			</footer>
 
