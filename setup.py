@@ -29,7 +29,7 @@ INSTALL_REQUIRES = [
 ]
 
 setup(
-    name='Jupinx',
+    name='jupinx',
     version=VERSION,
     url='https://github.com/QuantEcon/jupinx',
     download_url='https://github.com/QuantEcon/jupinx/archive/{}.tar.gz'.format(VERSION),
