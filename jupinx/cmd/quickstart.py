@@ -1,8 +1,8 @@
 """
-    jupinx.cmd.quickstart
-    ~~~~~~~~~~~~~~~~~~~~~
+jupinx.cmd.quickstart
+~~~~~~~~~~~~~~~~~~~~~
 
-    Quickly setup documentation source to work with Jupinx.
+Quickly setup documentation source to work with Jupinx.
 """
 
 import argparse
@@ -83,6 +83,14 @@ KERNELLIST = OrderedDict([
             "display_name": "Julia 1.1",
             "language": "julia",
             "name": "julia-1.1"
+            },
+        "file_extension": ".jl"
+    }),
+    ('julia-1.2', {
+        "kernelspec": {
+            "display_name": "Julia 1.2",
+            "language": "julia",
+            "name": "julia-1.2"
             },
         "file_extension": ".jl"
     })
@@ -362,12 +370,13 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     
     themedir = path.join(d['path'], 'theme')
     ensuredir(themedir)
-    ensuredir(path.join(themedir + '/templates'))
     ensuredir(path.join(srcdir + '/_static'))
 
     ## copying the html template files
-    html_theme_path = os.path.join(package_dir, 'templates', 'html')
-    copy_tree(html_theme_path + "/",themedir + '/templates/', preserve_symlinks=1)
+    DEFAULT_THEME = "minimal"
+    source_theme_path = os.path.join(package_dir, 'theme', DEFAULT_THEME)
+    target_theme_path = os.path.join(themedir, DEFAULT_THEME)
+    copy_tree(source_theme_path + "/", target_theme_path , preserve_symlinks=1)
 
     for (key, value) in KERNELLIST.items():
         if d['kernels'][key] is True:
@@ -396,6 +405,9 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     ## forming a minimal template of index.rst here
     masterfile = path.join(srcdir, d['master'] + d['suffix'])
     write_file(masterfile, template.render('quickstart/master_doc.rst_t', d))
+    demofile = path.join(srcdir, 'demo_notebook.rst')
+    write_file(demofile, template.render('quickstart/demo_notebook.rst_t', d))
+    copy_tree(package_dir + '/templates/quickstart/_static/', srcdir + '/_static/')
 
     ## taking the minimal Makefile 
     makefile_template = 'quickstart/Makefile_t'
