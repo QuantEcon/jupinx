@@ -26,7 +26,9 @@
 		<meta name="keywords" content="">
 		<meta name="description" content="">
 
-		<link rel="stylesheet" href="/_static/css/base.css">
+		<link rel="stylesheet" href="_static/css/base.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		<script src="_static/js/base.js"></script>
 
 	</head>
 
@@ -338,9 +340,6 @@ var element = $('#{{ div_id }}');
 			</footer>
 
 		</div>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-		<script src="/_static/js/base.js"></script>
 
 	</body>
 </html>
