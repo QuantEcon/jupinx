@@ -4,11 +4,6 @@ layout: default
 permalink: /tutorial.html
 ---
 
-
-
-
-
-
 # Tutorial: Setting up a Project
 
 This tutorial will take you through the steps needed to get up and running
@@ -28,14 +23,17 @@ pip install --upgrade jupinx
 The `jupinx` command line tool converts RST files in a **source directory**
 into 
 
-1. a set of Jupyter Notebooks and
-2. a website.
+1. a set of Jupyter Notebooks
+2. a website, and/or
+3. pdf files
 
 A valid source directory must contain
 
 * some RST files, including one called `index.rst` and
 
-* a configuration file called `conf.py`.
+* a configuration file called `conf.py`
+
+* a jupinx compatible `Makefile`
 
 
 ## Creating a Source Directory
@@ -105,7 +103,7 @@ Finished: An initial directory structure has been created.
 You should now populate your master file ./source/index.rst and create other documentation
 source files. Use the Makefile to build the docs, like so:
    make builder
-where "builder" is one of the supported builders, e.g. html, latex or linkcheck.
+where "builder" is one of the supported builders, e.g. jupyter, website or pdf.
 ```
 
 You should now see the following files and folders in your directory:
@@ -116,6 +114,10 @@ ls jupinx-project
 > Makefile	_build		conf.py		source		theme
 ```
 
+.. note::
+
+    ``jupinx-quickstart`` includes a `minimal` theme to enable html and pdf
+    construction.
 
 Now let's create our first source file.
 
@@ -180,7 +182,7 @@ jupinx -n jupinx-project
 
 This generates notebooks from the `rst` files and puts them in `_build/jupyter/`
 
-To view the results using Jupter Notebooks, type
+To view the results using Jupyter Notebooks, type
 
 ```
 jupinx -j jupinx-project
@@ -205,9 +207,6 @@ jupinx --help
 ```
 
 More details can be found in the [documentation](https://jupinx.readthedocs.io/).
-
-
-
 
 
 ## Advanced Configuration 

@@ -28,25 +28,31 @@ Convert RST files in `source_directory` into notebooks:
 
 
 ```bash
-jupinx -n source_directory
+jupinx -n <source_directory>
 ```
 
 View the results using Jupter Notebooks:
 
 ```bash
-jupinx -j source_directory
+jupinx -j <source_directory>
 ```
 
 Convert RST files into a website: 
 
 ```bash
-jupinx -w source_directory
+jupinx -w <source_directory>
 ```
 
 View the generated website: 
 
 ```bash
-jupinx -s source_directory
+jupinx -s <source_directory>
+```
+
+Convert RST files into pdf files:
+
+```bash
+jupinx -p <source_directory>
 ```
 
 Get help:
