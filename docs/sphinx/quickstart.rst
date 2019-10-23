@@ -52,9 +52,9 @@ The ``jupinx-quickstart`` will:
 
 after running the quickstart you may run:
 
-1. ``make jupyter`` to build the project as notebooks
-1. ``make website`` to build the project as a website (via sphinxcontrib-jupyter)
-1. ``make pdf`` to build the project as a pdf (via sphinxcontrib-jupyter)
+#. ``make jupyter`` to build the project as notebooks
+#. ``make website`` to build the project as a website (via sphinxcontrib-jupyter)
+#. ``make pdf`` to build the project as a pdf (via sphinxcontrib-jupyter)
 
 .. note::
 
