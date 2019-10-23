@@ -7,7 +7,7 @@ A quickstart utility has been developed to help users get setup quickly
 with Sphinx, configured in a way to get building collections of Jupyter notebooks 
 quickly. 
 
-.. contents:
+.. contents::
    :depth: 1
    :local:
 
@@ -48,8 +48,18 @@ The ``jupinx-quickstart`` will:
 #. check for ``sphinxcontrib-jupyter`` and ``sphinxcontrib-bibtex`` installation
 #. construct ``Makefile`` and ``conf.py`` files 
 #. construct a parent document ``source/index.rst``
+#. setup the project to use the ``minimal`` theme
 
-after running the quickstart you may run ``make jupyter`` to build the project
+after running the quickstart you may run:
+
+1. ``make jupyter`` to build the project as notebooks
+1. ``make website`` to build the project as a website (via sphinxcontrib-jupyter)
+1. ``make pdf`` to build the project as a pdf (via sphinxcontrib-jupyter)
+
+.. note::
+
+    The ``quickstart`` sets up the `Makefile` with some `conf.py` setting overrides to
+    enable building `jupyter` and `website` (rather than via a specific builder)
 
 Directory structure
 -------------------
