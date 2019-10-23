@@ -432,7 +432,7 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     print(__('Use the Makefile to build the docs, like so:\n'
                  '   make builder'))
     print(__('where "builder" is one of the supported builders, '
-             'e.g. html, latex or linkcheck.'))
+             'e.g. jupyter, website or pdf.'))
     print()
 
 
