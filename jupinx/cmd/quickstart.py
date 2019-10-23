@@ -381,6 +381,8 @@ def generate(d: Dict, overwrite: bool = True, silent: bool = False
     for (key, value) in KERNELLIST.items():
         if d['kernels'][key] is True:
             d['kernels'][key] = value
+        else:
+            del d['kernels'][key]   #No need to include 'n' responses in conf.py
 
     ## pretty print the json
     d['kernels'] = json.dumps(d['kernels'], sort_keys=True, indent=4)
