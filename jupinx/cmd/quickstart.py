@@ -50,7 +50,8 @@ TERM_ENCODING = getattr(sys.stdin, 'encoding', None)  # RemovedInSphinx40Warning
 
 EXTENSIONS = OrderedDict([
     ('sphinxcontrib-jupyter', __('A Sphinx Extension for Generating Jupyter Notebooks')),
-    ('sphinxcontrib-bibtex', __('A Sphinx extension for BibTeX style citations'))
+    ('sphinxcontrib-bibtex', __('A Sphinx extension for BibTeX style citations')),
+    ('sphinx-math-dollar', __('A Sphinx Extension for Enabling Math using $ Environments'))
 ])
 
 PROMPT_PREFIX = '> '
