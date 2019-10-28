@@ -318,7 +318,10 @@ def ask_user(d: Dict) -> None:
     ## Ask for sphinx extensions to be installed
     print(__('Indicate which of the following Sphinx extensions should be installed:'))
     for name, description in EXTENSIONS.items():
-        moduleName = name.replace('-','.')
+        if name == "sphinx-math-dollar":
+            moduleName = name.replace("-","_")     #non-sphinxcontrib package
+        else:
+            moduleName = name.replace('-','.')
         try:
             importlib.import_module(moduleName)
             if do_prompt('%s package has been found in your system. Would you like to upgrade it? (y/n)' % (name), 'y', boolean):
