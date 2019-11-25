@@ -9,6 +9,8 @@ permalink: /tutorial.html
 This tutorial will take you through the steps needed to get up and running
 with `jupinx`. 
 
+For a guide on how to use `jupinx` on a Windows system, see [this page](/windows.html).
+
 ## Installation
 
 Make sure you have `jupinx` installed: 
