@@ -21,19 +21,25 @@ We suggest you follow a tutorial like [this one by Microsoft](https://docs.micro
 1. Open a web browser in Windows and navigate to Anaconda's download/distribution page [here](https://www.anaconda.com/distribution/). Your (Windows) operating system will be detected and you will be recommended the Windows installer. Don't download this one - you want the Linux version.
 2. Right click on the Linux download link for Python 3 and and click Copy Link or Copy Link Location.
 3. Open a Linux terminal (if using Ubuntu, simply search for Ubuntu in the Windows search bar). To download the Anaconda install files, type:
+
 ```bash
 wget <Anaconda download link>
 ```
+
 for example:
+
 ```bash
 wget https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
-
 ```
+
 4. To install, run the installation script for whichever version of Anaconda you've got downloaded: 
+
 ```bash
 bash Anaconda3<version>.sh
 ```
+
 for example:
+
 ```bash
 bash Anaconda3-2019.10-Linux-x86_64.sh
 ```
@@ -42,6 +48,7 @@ bash Anaconda3-2019.10-Linux-x86_64.sh
 Open an Ubuntu terminal and follow the instructions [here](/tutorial.html) for installing Jupinx.
 
 Check that the install has worked with: 
+
 ```bash
 jupinx --version
 ```
@@ -62,6 +69,7 @@ To avoid potential problems caused by differences in Windows and Linux file syst
 1. Install VSCode
 2. Install the Remote-WSL extension
 3. To open a file called filename.rst in the VSCode Remote-WSL editor from Ubuntu, type the following in an Ubuntu terminal:
+
 ```bash
 code filename.rst
 ```
