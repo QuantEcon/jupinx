@@ -50,7 +50,8 @@ TERM_ENCODING = getattr(sys.stdin, 'encoding', None)  # RemovedInSphinx40Warning
 
 EXTENSIONS = OrderedDict([
     ('sphinxcontrib-jupyter', __('A Sphinx Extension for Generating Jupyter Notebooks')),
-    ('sphinxcontrib-bibtex', __('A Sphinx extension for BibTeX style citations'))
+    ('sphinxcontrib-bibtex', __('A Sphinx extension for BibTeX style citations')),
+    ('sphinx-math-dollar', __('A Sphinx Extension for Enabling Math using $ Environments'))
 ])
 
 PROMPT_PREFIX = '> '
@@ -317,7 +318,10 @@ def ask_user(d: Dict) -> None:
     ## Ask for sphinx extensions to be installed
     print(__('Indicate which of the following Sphinx extensions should be installed:'))
     for name, description in EXTENSIONS.items():
-        moduleName = name.replace('-','.')
+        if name == "sphinx-math-dollar":
+            moduleName = name.replace("-","_")     #non-sphinxcontrib package
+        else:
+            moduleName = name.replace('-','.')
         try:
             importlib.import_module(moduleName)
             if do_prompt('%s package has been found in your system. Would you like to upgrade it? (y/n)' % (name), 'y', boolean):
