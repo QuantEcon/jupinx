@@ -16,6 +16,17 @@ jobs:
           python-version: 3.7
           environment-file: environment.yml
           activate-environment: test-build
+      - name: Checkout sphinxcontrib-jupyter
+        uses: actions/checkout@v2
+        with:
+          repository: QuantEcon/sphinxcontrib-jupyter
+          path: ./
+      - name: Install sphinxcontrib-jupyter and Remove
+        shell: bash -l {0}
+        run: |
+          cd sphinxcontrib-jupyter
+          python setup.py install
+          cd ../ && rm -rf sphinxcontrib-jupyter
       - name: Install Jupinx
         shell: bash -l {0}
         run: python setup.py install
