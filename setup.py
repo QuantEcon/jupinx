@@ -18,7 +18,7 @@ INSTALL_REQUIRES = [
     'nbformat', 
     'sphinx>=1.8.5', 
     'dask', 
-    'dask[distributed]>=2.11.0',
+    'dask[distributed]',
     'ipython', 
     'nbconvert',
     'notebook',
