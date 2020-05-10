@@ -18,14 +18,14 @@ INSTALL_REQUIRES = [
     'nbformat', 
     'sphinx>=1.8.5', 
     'dask', 
-    'dask[distributed]',
+    'dask[distributed]>=2.11.0',
     'ipython', 
     'nbconvert',
     'notebook',
     'jupyter_client',
     'pyzmq>=17.1.3',
     'sphinxcontrib-bibtex',
-    'sphinxcontrib-jupyter>=0.5.1'
+    'sphinxcontrib-jupyter>=0.5.5'
 ]
 
 setup(
