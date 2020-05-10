@@ -1,0 +1,47 @@
+name: Tests
+on: [pull_request]
+jobs:
+  build-cache:
+    name: Build lecture-python-programming
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Anaconda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+          auto-update-conda: true
+          auto-activate-base: true
+          miniconda-version: 'latest'
+          python-version: 3.7
+          environment-file: environment.yml
+          activate-environment: test-build
+      # Useful for tests of mster branch of sphinxcontrib-jupyter
+      # - name: Checkout sphinxcontrib-jupyter (master)
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: QuantEcon/sphinxcontrib-jupyter
+      #     path: ./sphinxcontrib-jupyter
+      # - name: Install sphinxcontrib-jupyter and remove
+      #   shell: bash -l {0}
+      #   run: |
+      #     cd sphinxcontrib-jupyter
+      #     python setup.py install
+      #     cd ../ && rm -rf sphinxcontrib-jupyter
+      - name: Install Jupinx
+        shell: bash -l {0}
+        run: python setup.py install
+      - name: Checkout lecture-python-programming
+        uses: actions/checkout@v2
+        with:
+          repository: QuantEcon/lecture-python-programming
+          path: ./
+      - name: Build Coverage
+        shell: bash -l {0}
+        run: |
+          jupinx -t
+      - name: Build Website
+        shell: bash -l {0}
+        run: |
+          jupinx -w
+          ls _build/website/jupyter_html/*
