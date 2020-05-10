@@ -1,11 +1,11 @@
-name: Test -> build lecture-python-programming
+name: Tests
 on:
   push:
     branches:
       - master
 jobs:
   build-cache:
-    name: Build leture-python-programming
+    name: Build lecture-python-programming
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
