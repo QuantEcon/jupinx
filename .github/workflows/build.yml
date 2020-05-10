@@ -17,6 +17,7 @@ jobs:
           environment-file: environment.yml
           activate-environment: test-build
       - name: Install Jupinx
+        shell: bash -l {0}
         run: python setup.py install
       - name: Checkout lecture-python-programming
         uses: actions/checkout@v2
