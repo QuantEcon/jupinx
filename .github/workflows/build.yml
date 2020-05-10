@@ -1,8 +1,5 @@
 name: Tests
-on:
-  push:
-    branches:
-      - master
+on: [pull_request]
 jobs:
   build-cache:
     name: Build lecture-python-programming
