@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: QuantEcon/sphinxcontrib-jupyter
-          path: ./
+          path: ./sphinxcontrib-jupyter
       - name: Install sphinxcontrib-jupyter and Remove
         shell: bash -l {0}
         run: |
