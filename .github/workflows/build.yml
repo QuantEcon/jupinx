@@ -38,5 +38,5 @@ jobs:
       - name: Build Website
         shell: bash -l {0}
         run: |
-          jupinx -w lecture-python-programming
+          jupinx -w
           ls _build/website/jupyter_html/*
