@@ -1,20 +1,20 @@
 jupinx
 ======
 
-.. warning::
+⚠️ **DEPRECATED — this project is no longer maintained.**
 
-   **This project is no longer maintained.**
+Jupinx was QuantEcon's command-line build tool for the lecture series, built
+around the `sphinxcontrib-jupyter
+<https://github.com/QuantEcon/sphinxcontrib-jupyter>`__ Sphinx extension (now
+also deprecated). Both have been superseded by QuantEcon's migration to the
+`Jupyter Book <https://jupyterbook.org>`__ / `MyST <https://mystmd.org>`__
+toolchain. For building Jupyter notebooks from MyST sources, see
+`sphinx-tojupyter <https://github.com/QuantEcon/sphinx-tojupyter>`__.
 
-   Jupinx was QuantEcon's command-line build tool for the lecture series,
-   built around the `sphinxcontrib-jupyter
-   <https://github.com/QuantEcon/sphinxcontrib-jupyter>`__ Sphinx extension
-   (now also deprecated). Both have been superseded by QuantEcon's migration to
-   the `Jupyter Book <https://jupyterbook.org>`__ / `MyST <https://mystmd.org>`__
-   toolchain. For building Jupyter notebooks from MyST sources, see
-   `sphinx-tojupyter <https://github.com/QuantEcon/sphinx-tojupyter>`__.
+This repository and its documentation site (https://jupinx.quantecon.org) are
+retained for historical reference.
 
-   This repository and its documentation site (https://jupinx.quantecon.org)
-   are retained for historical reference.
+----
 
 Jupyter + Sphinx Utilities and Tools
 
